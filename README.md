@@ -1,6 +1,8 @@
 # summerProject
 
-File compressor for Massey University 3rd year summer school computer science project.
+Command line file compressor based on Huffman's code.
+For Massey University 159.333 - Programming Project Summer School 2017
+Author: Gray Salmond <graysalmond@hotmail.com>
 
 To build project
 
