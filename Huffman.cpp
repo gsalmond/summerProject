@@ -19,11 +19,11 @@ Huffman::Huffman(const string &inStr, const string &outStr) {
         exit(EXIT_FAILURE);
     }
 
-    //TODO create a heap of symbols comprised of 8 bits each (chars)
-
     //TODO add each character to the heap tallying up occurrences of each character
 
+    //an array of number of tallies a symbol appears in a file
     long tallies[256];
+    //initialise tallies
     for (auto &&item : tallies) {
         item = 0;
     }
@@ -37,9 +37,10 @@ Huffman::Huffman(const string &inStr, const string &outStr) {
         ++tallies[(int)c];
     }
 
+    //display tallies
     for (int i = 0; i < 256; ++i) {
         cout << i << ": " << tallies[i] << ", ";
-        if(i % 10 == 0) { cout << endl; }
+        if(i % 10 == 0 && i != 0) { cout << endl; }
     }
 
     //close files when finished
