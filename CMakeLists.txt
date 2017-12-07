@@ -4,6 +4,6 @@ project(summerProject)
 set(CMAKE_CXX_STANDARD 11)
 
 set(SOURCE_FILES
-        main.cpp test.cpp test.h)
+        main.cpp Huffman.cpp Huffman.h)
 
 add_executable(summerProject ${SOURCE_FILES})

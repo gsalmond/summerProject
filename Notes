@@ -1,0 +1,62 @@
+
+
+Min Heap
+Create an array of “symbols”
+	Symbol length, quantity of symbols
+
+Benchmark website
+	Google tests
+
+Compression project
+
+Think about software architecture
+separate class files, design considerations, extensibility, exceptions,
+Design patterns, algorithms used, data structures used
+Use templates where appropriate
+https://google.github.io/styleguide/cppguide.html
+Use IDE
+Keep journal style notes
+Command line program, takes arguments
+Use unit testing
+Problems
+	Key size, file size, efficiency, accuracy
+	Use canterbury corpus for files
+Once finished?
+	Experiments
+	Different compression algorithms
+		Ppm - prediction by partial matching
+		DMC - dynamic markov coding
+		Arithmetic coding
+	Research compression and attempt own compression software
+	Ideas in home folder
+Use smart/shared/weak pointers if appropriate
+
+Research Huffman coding
+Set up Git
+Read in file, read out same file
+Read in file, record occurrences of each character
+Experiment with different types of files
+Images
+Applications
+Zip files
+Different sizes
+
+
+Report ideas:
+	Two pass algorithm - Each table is generated individually per file, this reduces compression ration but not significantly - variable length codes for data compression pg 2-3 (introduction)
+
+https://www.jetbrains.com/help/clion/2017.2/google-test-support.html?utm_campaign=CL&utm_content=2017.2&utm_medium=help_link&utm_source=from_product
+
+Tree of operations
+	Start from a low base (1 bit) and try to build up operations
+	Hold
+	Delete
+	Increment
+	Increment X
+	Multiply
+	Exponent
+	Subtract
+	Plus
+	All 1
+	All 0
+	All Pattern
