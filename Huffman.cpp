@@ -23,13 +23,23 @@ Huffman::Huffman(const string &inStr, const string &outStr) {
 
     //TODO add each character to the heap tallying up occurrences of each character
 
+    long tallies[256];
+    for (auto &&item : tallies) {
+        item = 0;
+    }
+
     //copying file into output file
     outFile.open(outStr);
     char c;
     outFile << "This is different" << endl;
     while(inFile.get(c)) {
         outFile << c;
-        //cout << c;
+        ++tallies[(int)c];
+    }
+
+    for (int i = 0; i < 256; ++i) {
+        cout << i << ": " << tallies[i] << ", ";
+        if(i % 10 == 0) { cout << endl; }
     }
 
     //close files when finished
