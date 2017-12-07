@@ -15,6 +15,8 @@ int main () {
     string inStr = "../cantCorpus/alice29.txt";
     string outStr = "../cantCorpus/alice29.huffCode";
 
+    //TODO allow selection of different compression algorithms
+
     //calling compression algorithm on file(s) to be compressed
     Huffman compressor(inStr, outStr);
 

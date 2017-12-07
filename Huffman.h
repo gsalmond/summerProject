@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <fstream>
 #include <string>
 
 #ifndef SUMMERPROJECT_HUFFMAN_H
@@ -12,6 +13,10 @@
 class Huffman {
 public:
     Huffman(const std::string &inStr, const std::string &outStr);
+
+private:
+    std::ifstream inFile;
+    std::ofstream outFile;
 };
 
 

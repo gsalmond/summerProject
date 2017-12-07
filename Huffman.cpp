@@ -13,14 +13,18 @@ using namespace std;
 Huffman::Huffman(const string &inStr, const string &outStr) {
 
     //open file, check exists
-    ifstream inFile(inStr);
+    inFile.open(inStr);
     if(!inFile.is_open()) {
-        cout << "Error opening passed filename: " + inStr;
+        cout << "Error opening file: " + inStr;
         exit(EXIT_FAILURE);
     }
 
+    //TODO create a heap of symbols comprised of 8 bits each (chars)
+
+    //TODO add each character to the heap tallying up occurrences of each character
+
     //copying file into output file
-    ofstream outFile(outStr);
+    outFile.open(outStr);
     char c;
     outFile << "This is different" << endl;
     while(inFile.get(c)) {

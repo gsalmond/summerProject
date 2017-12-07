@@ -32,8 +32,6 @@ Once finished?
 Use smart/shared/weak pointers if appropriate
 
 Research Huffman coding
-Set up Git
-Read in file, read out same file
 Read in file, record occurrences of each character
 Experiment with different types of files
 Images
