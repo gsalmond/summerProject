@@ -23,19 +23,22 @@ Huffman::Huffman(const string &inStr, const string &outStr) {
         exit(EXIT_FAILURE);
     }
 
-    //inserting code to actually be used
+    //initialise vector of every symbol to contain counts of zero
     vector<Symbol<char>> syms;
     for(int i = 0; i < 256; ++i) {
         Symbol<char> nextSym((char)i, 0);
         syms.push_back(nextSym);
     }
 
+    ///////////////////////////
+    //DELETE THIS EVENTUALLY
     //an array of number of tallies a symbol appears in a file
     long tallies[256];
     //initialise tallies
     for (auto &&item : tallies) {
         item = 0;
     }
+    ///////////////////////////
 
     //copying file into output file
     outFile.open(outStr);
@@ -47,6 +50,8 @@ Huffman::Huffman(const string &inStr, const string &outStr) {
         ++syms[(int)c];
     }
 
+    ////////////////////////////
+    //CAN DELETE THIS EVENTUALLY
     cout << setw(6);
     //display tallies
     for (int i = 0; i < 256; i++) {
@@ -55,15 +60,16 @@ Huffman::Huffman(const string &inStr, const string &outStr) {
 
     }
     cout << endl;
+    ////////////////////////////
 
-    //TODO create Huffman tree
-
+    //Take vector of counted Symbols and create a Huffman tree
     MinHeap<char> heap(syms);
     heap.printHeap();
 
     //TODO create output file
 
-    //closing files when finished
+
+
     inFile.close();
     outFile.close();
 }

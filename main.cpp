@@ -3,11 +3,8 @@
 // Author: Gray Salmond <graysalmond@hotmail.com>
 
 #include <iostream>
-#include <vector>
 
 #include "Huffman.h"
-#include "Symbol.h"
-#include "MinHeap.h"
 
 using namespace std;
 
@@ -27,14 +24,12 @@ int main () {
     //... push this functionality into compression classes
     //system("diff ../cantCorpus/alice29.txt ../cantCorpus/alice29.huffCode");
 
-    Symbol <char> x('4', 44);
-    vector<Symbol <char>> thingy;
-    thingy.push_back(x);
-    MinHeap<char> test(thingy);
-
-    cout << x.getSym() << " " << x.getCount() << " " << thingy[0].getCount() << " " << test.data[0].getCount();
+//  DELETE THIS EVENTUALLY
+//    Symbol <char> x('4', 44);
+//    vector<Symbol <char>> thingy;
+//    thingy.push_back(x);
+//    MinHeap<char> test(thingy);
+//    cout << x.getSym() << " " << x.getCount() << " " << thingy[0].getCount() << " " << test.data[0].getCount();
 
     cout << endl << endl;
-
-    //test.printHeap();
 }
