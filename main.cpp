@@ -36,5 +36,5 @@ int main () {
 
     cout << endl << endl;
 
-    test.printHeap();
+    //test.printHeap();
 }
