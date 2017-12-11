@@ -13,6 +13,8 @@ template <class T>
 class MinHeap {
 public:
     explicit MinHeap(std::vector<Symbol<T>> &symbols);
+    void insertHeap(Symbol<T> sym);
+    void printHeap();
 //private:
     std::vector<Symbol <T>> data;
 };

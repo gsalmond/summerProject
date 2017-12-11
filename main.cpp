@@ -33,4 +33,8 @@ int main () {
     MinHeap<char> test(thingy);
 
     cout << x.getSym() << " " << x.getCount() << " " << thingy[0].getCount() << " " << test.data[0].getCount();
+
+    cout << endl << endl;
+
+    test.printHeap();
 }
