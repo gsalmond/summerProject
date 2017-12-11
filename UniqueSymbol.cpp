@@ -4,7 +4,10 @@
 
 #include "UniqueSymbol.h"
 
-UniqueSymbol::UniqueSymbol(char newSym, long long newCount) {
-    sym = newSym;
-    count = newCount;
-}
+template<class T>
+UniqueSymbol<T>::UniqueSymbol(T sym, long long int count):sym(sym), count(count) {}
+
+template class UniqueSymbol<char>;
+template class UniqueSymbol<int>;
+template class UniqueSymbol<long int>;
+template class UniqueSymbol<long long int>;

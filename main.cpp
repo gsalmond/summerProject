@@ -5,7 +5,7 @@
 #include <iostream>
 
 #include "Huffman.h"
-#include "UniqueSymbol.h";
+#include "UniqueSymbol.h"
 
 using namespace std;
 
@@ -25,7 +25,7 @@ int main () {
     //... push this functionality into compression classes
     //system("diff ../cantCorpus/alice29.txt ../cantCorpus/alice29.huffCode");
 
-    UniqueSymbol x('4', 44);
+    UniqueSymbol <int> x('4', 44);
 
     cout << x.count << " " << x.sym;
 }

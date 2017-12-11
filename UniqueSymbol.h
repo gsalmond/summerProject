@@ -5,12 +5,12 @@
 #ifndef SUMMERPROJECT_UNIQUESYMBOL_H
 #define SUMMERPROJECT_UNIQUESYMBOL_H
 
-
+template <class T>
 class UniqueSymbol {
 public:
-    UniqueSymbol(char newSym, long long newCount);
-    char sym;
-    long long count;
+    UniqueSymbol<T>(T sym, long long int count);
+    T sym;
+    long long int count;
 };
 
 
