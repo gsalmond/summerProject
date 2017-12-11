@@ -17,6 +17,13 @@ long long int Symbol<T>::getCount() const {
     return count;
 }
 
+template<class T>
+long long int& Symbol<T>::operator++() {
+    ++count;
+    return count;
+}
+
+
 template class Symbol<char>;
 template class Symbol<int>;
 template class Symbol<long int>;

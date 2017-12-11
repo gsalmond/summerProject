@@ -11,6 +11,7 @@ public:
     Symbol(T sym, long long int count);
     T getSym() const;
     long long int getCount() const;
+    long long int& operator++();
 private:
     T sym;
     long long int count;

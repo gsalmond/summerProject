@@ -5,8 +5,11 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <vector>
 
 #include "Huffman.h"
+#include "Symbol.h"
+#include "MinHeap.h""
 
 using namespace std;
 
@@ -18,6 +21,13 @@ Huffman::Huffman(const string &inStr, const string &outStr) {
     if(!inFile.is_open()) {
         cout << "Error opening file: " + inStr;
         exit(EXIT_FAILURE);
+    }
+
+    //inserting code to actually be used
+    vector<Symbol<char>> syms;
+    for(int i = 0; i < 256; ++i) {
+        Symbol<char> nextSym((char)i, 0);
+        syms.push_back(nextSym);
     }
 
     //an array of number of tallies a symbol appears in a file
@@ -34,6 +44,7 @@ Huffman::Huffman(const string &inStr, const string &outStr) {
     while(inFile.get(c)) {
         outFile << c;
         ++tallies[(int)c];
+        ++syms[(int)c];
     }
 
     cout << setw(6);
@@ -46,6 +57,9 @@ Huffman::Huffman(const string &inStr, const string &outStr) {
     cout << endl;
 
     //TODO create Huffman tree
+
+    MinHeap<char> heap(syms);
+    heap.printHeap();
 
     //TODO create output file
 
