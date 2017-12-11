@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <iomanip>
 
 #include "Huffman.h"
 
@@ -18,8 +19,6 @@ Huffman::Huffman(const string &inStr, const string &outStr) {
         cout << "Error opening file: " + inStr;
         exit(EXIT_FAILURE);
     }
-
-    //TODO add each character to the heap tallying up occurrences of each character
 
     //an array of number of tallies a symbol appears in a file
     long tallies[256];
@@ -37,13 +36,20 @@ Huffman::Huffman(const string &inStr, const string &outStr) {
         ++tallies[(int)c];
     }
 
+    cout << setw(6);
     //display tallies
-    for (int i = 0; i < 256; ++i) {
-        cout << i << ": " << tallies[i] << ", ";
+    for (int i = 0; i < 256; i++) {
         if(i % 10 == 0 && i != 0) { cout << endl; }
-    }
+        cout << setw(4) << i << ": " << setw(6) << tallies[i] << ", ";
 
-    //close files when finished
+    }
+    cout << endl;
+
+    //TODO create Huffman tree
+
+    //TODO create output file
+
+    //closing files when finished
     inFile.close();
     outFile.close();
 }

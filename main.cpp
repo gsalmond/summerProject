@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include "Huffman.h"
+#include "UniqueSymbol.h";
 
 using namespace std;
 
@@ -18,9 +19,13 @@ int main () {
     //TODO allow selection of different compression algorithms
 
     //calling compression algorithm on file(s) to be compressed
-    Huffman compressor(inStr, outStr);
+    Huffman huffCompress(inStr, outStr);
 
     //TODO display statistics for compressed and decompressed file, perform check to see decoded file matches original
-    system("diff ../cantCorpus/alice29.txt ../cantCorpus/alice29.huffCode");
+    //... push this functionality into compression classes
+    //system("diff ../cantCorpus/alice29.txt ../cantCorpus/alice29.huffCode");
 
+    UniqueSymbol x('4', 44);
+
+    cout << x.count << " " << x.sym;
 }
