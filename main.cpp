@@ -7,6 +7,7 @@
 
 #include "Huffman.h"
 #include "Symbol.h"
+#include "MinHeap.h"
 
 using namespace std;
 
@@ -29,7 +30,7 @@ int main () {
     Symbol <char> x('4', 44);
     vector<Symbol <char>> thingy;
     thingy.push_back(x);
-    //MinHeap<char> test(thingy);
+    MinHeap<char> test(thingy);
 
-    cout << x.getSym() << " " << x.getCount() << " " << thingy[0].getCount();
+    cout << x.getSym() << " " << x.getCount() << " " << thingy[0].getCount() << " " << test.data[0].getCount();
 }
