@@ -3,9 +3,10 @@
 // Author: Gray Salmond <graysalmond@hotmail.com>
 
 #include <iostream>
+#include <vector>
 
 #include "Huffman.h"
-#include "UniqueSymbol.h"
+#include "Symbol.h"
 
 using namespace std;
 
@@ -25,7 +26,10 @@ int main () {
     //... push this functionality into compression classes
     //system("diff ../cantCorpus/alice29.txt ../cantCorpus/alice29.huffCode");
 
-    UniqueSymbol <int> x('4', 44);
+    Symbol <char> x('4', 44);
+    vector<Symbol <char>> thingy;
+    thingy.push_back(x);
+    //MinHeap<char> test(thingy);
 
-    cout << x.count << " " << x.sym;
+    cout << x.getSym() << " " << x.getCount() << " " << thingy[0].getCount();
 }
