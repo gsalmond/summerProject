@@ -11,7 +11,7 @@ template <class T>
 class Symbol {
 public:
     //Symbol initialised with the symbol of type T and the occurrence of the symbol
-    Symbol(T sym, long long int count);
+    explicit Symbol(T sym);
     //Returns the symbol
     T getSym() const;
     //Returns the count of the symbol

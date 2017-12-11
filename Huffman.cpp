@@ -23,10 +23,10 @@ Huffman::Huffman(const string &inStr, const string &outStr) {
         exit(EXIT_FAILURE);
     }
 
-    //initialise vector of every symbol to contain counts of zero
+    //initialise vector of every symbol
     vector<Symbol<char>> syms;
     for(int i = 0; i < 256; ++i) {
-        Symbol<char> nextSym((char)i, 0);
+        Symbol<char> nextSym((char)i);
         syms.push_back(nextSym);
     }
 

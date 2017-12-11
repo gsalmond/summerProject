@@ -5,7 +5,7 @@
 #include "Symbol.h"
 
 template<class T>
-Symbol<T>::Symbol(T sym, long long int count):sym(sym), count(count) {}
+Symbol<T>::Symbol(T sym):sym(sym) { count = 0; }
 
 template<class T>
 T Symbol<T>::getSym() const {
