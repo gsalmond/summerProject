@@ -40,13 +40,17 @@ Huffman::Huffman(const string &inStr, const string &outStr) {
     }
     ///////////////////////////
 
+    //go through file and count occurrence of each symbol
     //copying file into output file
     outFile.open(outStr);
     char c;
-    outFile << "This is different" << endl;
+    outFile << "This is different" << endl; //DELETE
     while(inFile.get(c)) {
         outFile << c;
-        ++tallies[(int)c];
+        ///////////////////////////
+        ++tallies[(int)c]; //DELETE
+        ///////////////////////////
+        //treating each symbol as a number for indexing vector
         ++syms[(int)c];
     }
 

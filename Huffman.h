@@ -13,11 +13,11 @@
 class Huffman {
 public:
     Huffman(const std::string &inStr, const std::string &outStr);
-
 private:
+    //file to compress
     std::ifstream inFile;
+    //destination of resulting compressed file
     std::ofstream outFile;
 };
-
 
 #endif //SUMMERPROJECT_HUFFMAN_H
