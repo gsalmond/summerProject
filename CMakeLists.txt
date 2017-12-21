@@ -7,4 +7,7 @@ add_executable(summerProject
         Huffman.cpp
         Huffman.h
         main.cpp
-        Symbol.cpp Symbol.h MinHeap.cpp MinHeap.h)
+        MinHeap.cpp
+        MinHeap.h
+        Symbol.cpp
+        Symbol.h)

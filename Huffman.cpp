@@ -9,7 +9,7 @@
 
 #include "Huffman.h"
 #include "Symbol.h"
-#include "MinHeap.h""
+#include "MinHeap.h"
 
 using namespace std;
 
