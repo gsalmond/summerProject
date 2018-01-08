@@ -6,7 +6,13 @@
 
 //Symbol initialised with the symbol of type T and the occurrence of the symbol
 template<class T>
-Symbol<T>::Symbol(T sym):sym(sym) { count = 0; }
+Symbol<T>::Symbol(T sym):sym(sym) { count = 0; internalNode = false; leftPtr = rightPtr = nullptr; }
+
+
+//Internal node initialised to counts of the symbols/nodes it's pointing to
+template<class T>
+Symbol<T>::Symbol(bool isNode, long long count):count(count), internalNode(isNode) {}
+
 
 //Returns the symbol
 template<class T>
@@ -16,13 +22,13 @@ T Symbol<T>::getSym() const {
 
 //Returns occurrences of the symbol
 template<class T>
-long long int Symbol<T>::getCount() const {
+long long Symbol<T>::getCount() const {
     return count;
 }
 
 //Pre increment operator for the count of the symbol
 template<class T>
-long long int& Symbol<T>::operator++() {
+long long& Symbol<T>::operator++() {
     ++count;
     return count;
 }
@@ -30,5 +36,5 @@ long long int& Symbol<T>::operator++() {
 
 template class Symbol<char>;
 template class Symbol<int>;
-template class Symbol<long int>;
-template class Symbol<long long int>;
+template class Symbol<long>;
+template class Symbol<long long>;

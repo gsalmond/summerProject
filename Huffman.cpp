@@ -72,8 +72,6 @@ Huffman::Huffman(const string &inStr, const string &outStr) {
 
     //TODO create output file
 
-
-
     inFile.close();
     outFile.close();
 }
