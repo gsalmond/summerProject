@@ -34,6 +34,8 @@ public:
     std::vector<symbolNode<T>*> huffmanTree;
     //insert an element into Huffman tree (minheap)
     void insertHuffmanTree(symbolNode<T>* nodeToInsert);
+    //delete a node and return a pointer to that node
+    symbolNode<T>* deleteHuffmanNode();
 };
 
 #endif //SUMMERPROJECT_HUFFMAN_H

@@ -66,11 +66,17 @@ Huffman<T>::Huffman(const string &inStr, const string &outStr) {
     ////////////////////////////
 
     //insert every symbol into minheap
+    //... implementing own minheap for practice/academic purposes
     for(auto&& symbolNode : initialNodes) {
         insertHuffmanTree(symbolNode);
     }
 
     //construct huffman tree
+
+    //keep constructing tree until there is a single root node
+//    while(huffmanTree.size() > 1) {
+//
+//    }
 
     cout << setw(6);
     //display tallies
@@ -104,8 +110,7 @@ void Huffman<T>::insertHuffmanTree(symbolNode<T> *nodeToInsert) {
     unsigned long parent;
     //keep moving element up the minheap until in right position
     while(i > 0) {
-        //formula to find parent node in a heap
-        parent = (i-1)/2;
+        parent = (i-1)/2; //formula to find parent node in a heap
         //swap if needed
         if(huffmanTree[i]->count < huffmanTree[parent]->count) {
             symbolNode<T>* temp = huffmanTree[parent];
@@ -114,6 +119,47 @@ void Huffman<T>::insertHuffmanTree(symbolNode<T> *nodeToInsert) {
             i = (i-1)/2;
         } else { break; } //otherwise in correct position
     }
+}
+
+template<class T>
+symbolNode<T> *Huffman<T>::deleteHuffmanNode() {
+    symbolNode<T>* toReturn = huffmanTree[0];
+    if(toReturn == nullptr) { throw "Error deleting Huffman tree node"; }
+
+    //start to repair minheap after a delete
+    long lastIndex = huffmanTree.size()-1;
+    huffmanTree[0] = huffmanTree[lastIndex];
+    huffmanTree.erase(huffmanTree.begin() + lastIndex);
+    lastIndex--;
+
+    long parentIndex = 0;
+    long leftChildIndex;
+    long rightChildIndex;
+    long smallestChildIndex;
+
+    while(true) {
+        leftChildIndex = parentIndex*2+1;
+        rightChildIndex = parentIndex*2+2;
+
+        if(leftChildIndex > lastIndex) { break; }  //stop when the heap is fixed
+
+        if(rightChildIndex > lastIndex) { smallestChildIndex = leftChildIndex; } //if no right node left is smallest
+        else { //return smallest child index between left and right
+            smallestChildIndex = (huffmanTree[leftChildIndex]->count <= huffmanTree[rightChildIndex]->count) ?
+                                 leftChildIndex : rightChildIndex;
+        }
+
+
+        //swap nodes if needed, set next parent index for next iteration
+        if(huffmanTree[parentIndex]->count > huffmanTree[smallestChildIndex]->count) {
+            symbolNode<T>* temp = huffmanTree[parentIndex];
+            huffmanTree[parentIndex] = huffmanTree[smallestChildIndex];
+            huffmanTree[smallestChildIndex] = temp;
+            parentIndex = smallestChildIndex;
+        } else { break; } //stop when heap is fixed
+
+    }
+    return toReturn;
 }
 
 template class Huffman<char>;
