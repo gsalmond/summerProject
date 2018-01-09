@@ -5,17 +5,30 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <cmath>
 #include <vector>
 
 #include "Huffman.h"
 #include "Symbol.h"
-#include "MinHeap.h"
 
 using namespace std;
+
+template <class T>
+struct symbolNode {
+    T symbol = 0;
+    bool isInternalNode = false;
+    unsigned long long count = 0;
+    T* leftPtr = nullptr;
+    T* rightPtr = nullptr;
+};
 
 //performs Huffman compression coding on a file and creates a .huffCode file of the same name
 template <class T>
 Huffman<T>::Huffman(const string &inStr, const string &outStr) {
+
+    symbolNode<T> x;
+    x.isInternalNode = true;
+    cout << x.isInternalNode;
 
     //open file, check exists
     inFile.open(inStr);
@@ -25,9 +38,20 @@ Huffman<T>::Huffman(const string &inStr, const string &outStr) {
     }
 
     //initialise vector of every symbol
-    vector<Symbol<char>> syms;
-    for(int i = 0; i < 256; ++i) {
-        Symbol<char> nextSym((char)i);
+    vector<symbolNode<T>*> initialNodes;
+    long uniqueSymbols = pow(2, sizeof(T) * 8);
+    for(long i = 0; i < uniqueSymbols; ++i) {
+        auto* temp = new symbolNode<T>;
+        temp->symbol = (T)i;
+        initialNodes.push_back(temp);
+    }
+
+    cout << initialNodes[97]->symbol << endl << endl;
+
+    //initialise vector of every symbol
+    vector<Symbol<T>> syms;
+    for(int i = 0; i < uniqueSymbols; ++i) {
+        Symbol<T> nextSym((char)i);
         syms.push_back(nextSym);
     }
 
@@ -67,8 +91,8 @@ Huffman<T>::Huffman(const string &inStr, const string &outStr) {
     ////////////////////////////
 
     //Take vector of counted Symbols and create a Huffman tree
-    MinHeap<char> heap(syms);
-    heap.printHeap();
+//    MinHeap<char> heap(syms);
+//    heap.printHeap();
 
     //TODO create output file
 

@@ -21,7 +21,6 @@ public:
     long long getCount() const;
     //Pre increment operator for the count of the symbol
     long long & operator++();
-private:
     //True if represents an internal node and not an actual symbol
     bool internalNode;
     //Represents a unique symbol of a file

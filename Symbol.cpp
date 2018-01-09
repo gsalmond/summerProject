@@ -9,8 +9,6 @@ template<class T>
 Symbol<T>::Symbol(T sym):sym(sym) { count = 0; internalNode = false; }
 
 
-//Internal node initialised to counts of the symbols/nodes it's pointing to
-
 //Returns the symbol
 template<class T>
 T Symbol<T>::getSym() const {
