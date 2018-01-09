@@ -14,7 +14,8 @@
 using namespace std;
 
 //performs Huffman compression coding on a file and creates a .huffCode file of the same name
-Huffman::Huffman(const string &inStr, const string &outStr) {
+template <class T>
+Huffman<T>::Huffman(const string &inStr, const string &outStr) {
 
     //open file, check exists
     inFile.open(inStr);
@@ -74,3 +75,8 @@ Huffman::Huffman(const string &inStr, const string &outStr) {
     inFile.close();
     outFile.close();
 }
+
+template class Huffman<char>;
+template class Huffman<int>;
+template class Huffman<long>;
+template class Huffman<long long>;
