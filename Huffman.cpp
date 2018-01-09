@@ -9,27 +9,12 @@
 #include <vector>
 
 #include "Huffman.h"
-#include "Symbol.h"
 
 using namespace std;
-
-template <class T>
-struct symbolNode {
-    T symbol = 0;
-    bool isInternalNode = false;
-    unsigned long long count = 0;
-    T* leftPtr = nullptr;
-    T* rightPtr = nullptr;
-};
 
 //performs Huffman compression coding on a file and creates a .huffCode file of the same name
 template <class T>
 Huffman<T>::Huffman(const string &inStr, const string &outStr) {
-
-    symbolNode<T> x;
-    x.isInternalNode = true;
-    cout << x.isInternalNode;
-
     //open file, check exists
     inFile.open(inStr);
     if(!inFile.is_open()) {
@@ -38,21 +23,11 @@ Huffman<T>::Huffman(const string &inStr, const string &outStr) {
     }
 
     //initialise vector of every symbol
-    vector<symbolNode<T>*> initialNodes;
     long uniqueSymbols = pow(2, sizeof(T) * 8);
     for(long i = 0; i < uniqueSymbols; ++i) {
         auto* temp = new symbolNode<T>;
         temp->symbol = (T)i;
         initialNodes.push_back(temp);
-    }
-
-    cout << initialNodes[97]->symbol << endl << endl;
-
-    //initialise vector of every symbol
-    vector<Symbol<T>> syms;
-    for(int i = 0; i < uniqueSymbols; ++i) {
-        Symbol<T> nextSym((char)i);
-        syms.push_back(nextSym);
     }
 
     ///////////////////////////
@@ -75,7 +50,7 @@ Huffman<T>::Huffman(const string &inStr, const string &outStr) {
         ++tallies[(int)c]; //DELETE
         ///////////////////////////
         //treating each symbol as a number for indexing vector
-        ++syms[(int)c];
+        initialNodes[c]->count++;
     }
 
     ////////////////////////////
@@ -90,14 +65,55 @@ Huffman<T>::Huffman(const string &inStr, const string &outStr) {
     cout << endl;
     ////////////////////////////
 
-    //Take vector of counted Symbols and create a Huffman tree
-//    MinHeap<char> heap(syms);
-//    heap.printHeap();
+    //insert every symbol into minheap
+    for(auto&& symbolNode : initialNodes) {
+        insertHuffmanTree(symbolNode);
+    }
+
+    //construct huffman tree
+
+    cout << setw(6);
+    //display tallies
+    for (int i = 0; i < initialNodes.size(); i++) {
+        if(i % 10 == 0 && i != 0) { cout << endl; }
+        cout << setw(4) << i << ": " << setw(6) << initialNodes[i]->count << ", ";
+    }
+    cout << endl;
+    for (int i = 0; i < huffmanTree.size(); i++) {
+        if(i % 10 == 0 && i != 0) { cout << endl; }
+        cout << setw(4) << i << ": " << setw(6) << huffmanTree[i]->count << ", ";
+    }
+    cout << endl;
 
     //TODO create output file
 
     inFile.close();
     outFile.close();
+}
+
+template<class T>
+void Huffman<T>::insertHuffmanTree(symbolNode<T> *nodeToInsert) {
+    //if there are no occurrences of symbol it is not needed
+    if(nodeToInsert->count == 0) { return; }
+
+    //push symbol node to back of heap
+    huffmanTree.push_back(nodeToInsert);
+
+    //make heap valid minheap
+    unsigned long i = huffmanTree.size() - 1; //index of the last element
+    unsigned long parent;
+    //keep moving element up the minheap until in right position
+    while(i > 0) {
+        //formula to find parent node in a heap
+        parent = (i-1)/2;
+        //swap if needed
+        if(huffmanTree[i]->count < huffmanTree[parent]->count) {
+            symbolNode<T>* temp = huffmanTree[parent];
+            huffmanTree[parent] = huffmanTree[i];
+            huffmanTree[i] = temp;
+            i = (i-1)/2;
+        } else { break; } //otherwise in correct position
+    }
 }
 
 template class Huffman<char>;
