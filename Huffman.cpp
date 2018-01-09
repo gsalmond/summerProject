@@ -44,7 +44,6 @@ Huffman::Huffman(const string &inStr, const string &outStr) {
     //copying file into output file
     outFile.open(outStr);
     char c;
-    outFile << "This is different" << endl; //DELETE
     while(inFile.get(c)) {
         outFile << c;
         ///////////////////////////

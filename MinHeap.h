@@ -13,10 +13,12 @@ template <class T>
 class MinHeap {
 public:
     explicit MinHeap(std::vector<Symbol<T>> &symbols);
-    void insertHeap(Symbol<T> sym);
     void printHeap();
-//private:
+private:
     std::vector<Symbol <T>> data;
+    void insertHeap(Symbol<T> sym);
+    void buildHuffmanTree();
+//    Symbol<T> deleteHeapRoot();
 };
 
 #endif //SUMMERPROJECT_MINHEAP_H

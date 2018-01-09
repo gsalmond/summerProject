@@ -12,9 +12,7 @@ using namespace std;
 
 template <class T>
 MinHeap<T>::MinHeap(std::vector<Symbol<T>> &symbols) {
-    for (auto && sym : symbols) {
-        insertHeap(sym);
-    }
+    for (auto && sym : symbols) { insertHeap(sym); }
 }
 
 template<class T>
@@ -51,9 +49,24 @@ void MinHeap<T>::printHeap() {
     for (int i = 0; i < data.size(); i++) {
         if(i % 10 == 0 && i != 0) { cout << endl; }
         cout << setw(4) << i << ": " << setw(6) << data[i].getCount() << ", ";
-
     }
     cout << endl;
 }
 
+template<class T>
+void MinHeap<T>::buildHuffmanTree() {
+    while(data.size() > 1) {
+        //take first two nodes, create new internal node and insert into heap
+    }
+}
+
+//template<class T>
+//Symbol<T> MinHeap<T>::deleteHeapRoot() {
+//    //Symbol* sym = new Symbol(data.is)
+//    return nullptr;
+//}
+
 template class MinHeap<char>;
+template class MinHeap<int>;
+template class MinHeap<long>;
+template class MinHeap<long long>;

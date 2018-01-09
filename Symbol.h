@@ -28,8 +28,6 @@ private:
     T sym;
     //Occurrence of the symbol in a file
     long long count;
-    Symbol* leftPtr;
-    Symbol* rightPtr;
 };
 
 
