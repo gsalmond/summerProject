@@ -15,8 +15,8 @@ struct symbolNode {
     T symbol = 0;
     bool isInternalNode = false;
     unsigned long long count = 0;
-    T* leftPtr = nullptr;
-    T* rightPtr = nullptr;
+    symbolNode<T>* leftPtr = nullptr;
+    symbolNode<T>* rightPtr = nullptr;
 };
 
 //performs Huffman compression coding on a file and creates a .huffCode file of the same name

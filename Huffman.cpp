@@ -23,8 +23,7 @@ Huffman<T>::Huffman(const string &inStr, const string &outStr) {
     }
 
     //initialise vector of every symbol
-    long uniqueSymbols = pow(2, sizeof(T) * 8);
-    for(long i = 0; i < uniqueSymbols; ++i) {
+    for(long i = 0; i < 256; ++i) {
         auto* temp = new symbolNode<T>;
         temp->symbol = (T)i;
         initialNodes.push_back(temp);
@@ -74,9 +73,21 @@ Huffman<T>::Huffman(const string &inStr, const string &outStr) {
     //construct huffman tree
 
     //keep constructing tree until there is a single root node
-//    while(huffmanTree.size() > 1) {
-//
-//    }
+    while(huffmanTree.size() > 1) {
+        //grab first node
+        symbolNode<T>* firstNode = deleteHuffmanNode();
+        //grab second node
+        symbolNode<T>* secondNode = deleteHuffmanNode();
+        //create new internal node
+        symbolNode<T>* newNode = new symbolNode<T>;
+        newNode->count = firstNode->count + secondNode->count;
+        newNode->leftPtr = firstNode;
+        newNode->rightPtr = secondNode;
+        newNode->isInternalNode = true;
+        insertHuffmanTree(newNode);
+    }
+
+    //traverse tree, print out
 
     cout << setw(6);
     //display tallies
@@ -126,12 +137,13 @@ symbolNode<T> *Huffman<T>::deleteHuffmanNode() {
     symbolNode<T>* toReturn = huffmanTree[0];
     if(toReturn == nullptr) { throw "Error deleting Huffman tree node"; }
 
-    //start to repair minheap after a delete
+    //delete root node from tree
     long lastIndex = huffmanTree.size()-1;
     huffmanTree[0] = huffmanTree[lastIndex];
     huffmanTree.erase(huffmanTree.begin() + lastIndex);
     lastIndex--;
 
+    //start to repair minheap after a delete
     long parentIndex = 0;
     long leftChildIndex;
     long rightChildIndex;
@@ -149,7 +161,6 @@ symbolNode<T> *Huffman<T>::deleteHuffmanNode() {
                                  leftChildIndex : rightChildIndex;
         }
 
-
         //swap nodes if needed, set next parent index for next iteration
         if(huffmanTree[parentIndex]->count > huffmanTree[smallestChildIndex]->count) {
             symbolNode<T>* temp = huffmanTree[parentIndex];
@@ -157,7 +168,6 @@ symbolNode<T> *Huffman<T>::deleteHuffmanNode() {
             huffmanTree[smallestChildIndex] = temp;
             parentIndex = smallestChildIndex;
         } else { break; } //stop when heap is fixed
-
     }
     return toReturn;
 }
