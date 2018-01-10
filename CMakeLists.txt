@@ -6,8 +6,4 @@ set(CMAKE_CXX_STANDARD 11)
 add_executable(summerProject
         Huffman.cpp
         Huffman.h
-        main.cpp
-        MinHeap.cpp
-        MinHeap.h
-        Symbol.cpp
-        Symbol.h)
+        main.cpp)

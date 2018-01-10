@@ -5,7 +5,6 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
-#include <cmath>
 #include <vector>
 
 #include "Huffman.h"
@@ -71,23 +70,10 @@ Huffman<T>::Huffman(const string &inStr, const string &outStr) {
     }
 
     //construct huffman tree
-
-    //keep constructing tree until there is a single root node
-    while(huffmanTree.size() > 1) {
-        //grab first node
-        symbolNode<T>* firstNode = deleteHuffmanNode();
-        //grab second node
-        symbolNode<T>* secondNode = deleteHuffmanNode();
-        //create new internal node
-        symbolNode<T>* newNode = new symbolNode<T>;
-        newNode->count = firstNode->count + secondNode->count;
-        newNode->leftPtr = firstNode;
-        newNode->rightPtr = secondNode;
-        newNode->isInternalNode = true;
-        insertHuffmanTree(newNode);
-    }
+    buildTree();
 
     //traverse tree, print out
+    outputTree("", huffmanTree[0]);
 
     cout << setw(6);
     //display tallies
@@ -106,6 +92,23 @@ Huffman<T>::Huffman(const string &inStr, const string &outStr) {
 
     inFile.close();
     outFile.close();
+}
+
+template<class T>
+void Huffman<T>::buildTree() {
+    while(huffmanTree.size() > 1) {
+        //grab first node
+        symbolNode<T>* firstNode = deleteHuffmanNode();
+        //grab second node
+        symbolNode<T>* secondNode = deleteHuffmanNode();
+        //create new internal node
+        auto newNode = new symbolNode<T>;
+        newNode->count = firstNode->count + secondNode->count;
+        newNode->leftPtr = firstNode;
+        newNode->rightPtr = secondNode;
+        newNode->isInternalNode = true;
+        insertHuffmanTree(newNode);
+    }
 }
 
 template<class T>
@@ -170,6 +173,17 @@ symbolNode<T> *Huffman<T>::deleteHuffmanNode() {
         } else { break; } //stop when heap is fixed
     }
     return toReturn;
+}
+
+template<class T>
+void Huffman<T>::outputTree(string code, symbolNode<T>* node) {
+    //if node is a leaf output encoding
+    if(!node->isInternalNode) {
+        cout << (int)node->symbol << ": " << code << endl;
+        return;
+    }
+    if(node->leftPtr != nullptr) { outputTree(code + "0", node->leftPtr); }
+    if(node->rightPtr != nullptr) { outputTree(code + "1", node->rightPtr); }
 }
 
 template class Huffman<char>;

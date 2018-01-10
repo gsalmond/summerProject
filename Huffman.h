@@ -36,6 +36,10 @@ public:
     void insertHuffmanTree(symbolNode<T>* nodeToInsert);
     //delete a node and return a pointer to that node
     symbolNode<T>* deleteHuffmanNode();
+    //build Huffman tree from minheap of symbol node occurrences
+    void buildTree();
+    //traverse and output Huffman tree codes
+    void outputTree(std::string code, symbolNode<T>* node);
 };
 
 #endif //SUMMERPROJECT_HUFFMAN_H
