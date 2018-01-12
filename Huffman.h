@@ -10,6 +10,7 @@
 #ifndef SUMMERPROJECT_HUFFMAN_H
 #define SUMMERPROJECT_HUFFMAN_H
 
+// represents a unique symbol of a file
 template <class T>
 struct symbolNode {
     T symbol = 0;

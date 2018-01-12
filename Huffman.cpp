@@ -94,6 +94,7 @@ Huffman<T>::Huffman(const string &inStr, const string &outStr) {
     outFile.close();
 }
 
+// builds Huffman tree, continues until there is a single node
 template<class T>
 void Huffman<T>::buildTree() {
     while(huffmanTree.size() > 1) {
@@ -111,6 +112,7 @@ void Huffman<T>::buildTree() {
     }
 }
 
+// inserts an element into Huffman tree (minheap)
 template<class T>
 void Huffman<T>::insertHuffmanTree(symbolNode<T> *nodeToInsert) {
     //if there are no occurrences of symbol it is not needed
@@ -135,12 +137,15 @@ void Huffman<T>::insertHuffmanTree(symbolNode<T> *nodeToInsert) {
     }
 }
 
+// returns root element of Huffman tree minheap
+// ... removes element from minheap and then fixes minheap
 template<class T>
 symbolNode<T> *Huffman<T>::deleteHuffmanNode() {
+    // root element is the element to return
     symbolNode<T>* toReturn = huffmanTree[0];
     if(toReturn == nullptr) { throw "Error deleting Huffman tree node"; }
 
-    //delete root node from tree
+    // proceed to delete root node from tree
     long lastIndex = huffmanTree.size()-1;
     huffmanTree[0] = huffmanTree[lastIndex];
     huffmanTree.erase(huffmanTree.begin() + lastIndex);
@@ -153,12 +158,15 @@ symbolNode<T> *Huffman<T>::deleteHuffmanNode() {
     long smallestChildIndex;
 
     while(true) {
+        // find index of left and right child nodes
         leftChildIndex = parentIndex*2+1;
         rightChildIndex = parentIndex*2+2;
 
-        if(leftChildIndex > lastIndex) { break; }  //stop when the heap is fixed
+        // if child nodes element is in correct position
+        if(leftChildIndex > lastIndex) { break; }
 
-        if(rightChildIndex > lastIndex) { smallestChildIndex = leftChildIndex; } //if no right node left is smallest
+        // find smallest node out of left and right child nodes
+        if(rightChildIndex > lastIndex) { smallestChildIndex = leftChildIndex; } //if no right node, left is smallest
         else { //return smallest child index between left and right
             smallestChildIndex = (huffmanTree[leftChildIndex]->count <= huffmanTree[rightChildIndex]->count) ?
                                  leftChildIndex : rightChildIndex;
@@ -175,13 +183,15 @@ symbolNode<T> *Huffman<T>::deleteHuffmanNode() {
     return toReturn;
 }
 
+// recursively traverses Huffman tree to generate codes
 template<class T>
 void Huffman<T>::outputTree(string code, symbolNode<T>* node) {
-    //if node is a leaf output encoding
+    // if node is a leaf output encoding
     if(!node->isInternalNode) {
         cout << (int)node->symbol << ": " << code << endl;
         return;
     }
+    // if node is not a leaf go left adding 0 to its code then go right adding 1 to its code
     if(node->leftPtr != nullptr) { outputTree(code + "0", node->leftPtr); }
     if(node->rightPtr != nullptr) { outputTree(code + "1", node->rightPtr); }
 }
