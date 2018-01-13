@@ -6,6 +6,7 @@
 #include <fstream>
 #include <iomanip>
 #include <vector>
+#include <sstream>
 
 #include "Huffman.h"
 
@@ -88,7 +89,9 @@ Huffman<T>::Huffman(const string &inStr, const string &outStr) {
     }
     cout << endl;
 
+    cout << treeCode << endl << endl;
     //TODO create output file
+
 
     inFile.close();
     outFile.close();
@@ -186,14 +189,24 @@ symbolNode<T> *Huffman<T>::deleteHuffmanNode() {
 // recursively traverses Huffman tree to generate codes
 template<class T>
 void Huffman<T>::outputTree(string code, symbolNode<T>* node) {
+    stringstream ss;
     // if node is a leaf output encoding
     if(!node->isInternalNode) {
-        cout << (int)node->symbol << ": " << code << endl;
+        cout << node->symbol << ": " << code << endl;
+        ss << treeCode << "1" << node->symbol;
+        ss >> treeCode;
         return;
+    } else {
+        ss << treeCode << "0";
+        ss >> treeCode;
     }
     // if node is not a leaf go left adding 0 to its code then go right adding 1 to its code
-    if(node->leftPtr != nullptr) { outputTree(code + "0", node->leftPtr); }
-    if(node->rightPtr != nullptr) { outputTree(code + "1", node->rightPtr); }
+    if(node->leftPtr != nullptr) {
+        outputTree(code + "0", node->leftPtr); // CODE TO DELETE <<<
+    }
+    if(node->rightPtr != nullptr) {
+        outputTree(code + "1", node->rightPtr);
+    }
 }
 
 template class Huffman<char>;

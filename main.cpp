@@ -12,8 +12,10 @@ int main () {
 
     //TODO eventually grab file(s) to compress from command line arguments
     //     possibly extend to allow various compression algorithms and options
-    string inStr = "../cantCorpus/alice29.txt";
-    string outStr = "../cantCorpus/alice29.huffCode";
+//    string inStr = "../cantCorpus/alice29.txt";
+//    string outStr = "../cantCorpus/alice29.huffCode";
+    string inStr = "../testText.txt";
+    string outStr = "../testText.huffCode";
 
     //TODO allow selection of different compression algorithms
 
