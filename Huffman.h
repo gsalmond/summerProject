@@ -33,8 +33,8 @@ public:
     std::vector<symbolNode<T>*> initialNodes;
     //min heap to become a huffman tree
     std::vector<symbolNode<T>*> huffmanTree;
-    //string representation of bits that represent the final Huffman tree
-    std::string treeCode;
+    //vector<bool> representation of compressed file
+    std::vector<bool> compressed;
     //insert an element into Huffman tree (minheap)
     void insertHuffmanTree(symbolNode<T>* nodeToInsert);
     //delete a node and return a pointer to that node
@@ -42,7 +42,9 @@ public:
     //build Huffman tree from minheap of symbol node occurrences
     void buildTree();
     //traverse and output Huffman tree codes
-    void outputTree(std::string code, symbolNode<T>* node);
+    void outputTree(symbolNode<T>* node);
+    //take a symbol and push its bit representation onto vector<bool> compressed
+    void convertToBits(T element);
 };
 
 #endif //SUMMERPROJECT_HUFFMAN_H

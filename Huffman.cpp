@@ -6,7 +6,6 @@
 #include <fstream>
 #include <iomanip>
 #include <vector>
-#include <sstream>
 
 #include "Huffman.h"
 
@@ -74,7 +73,11 @@ Huffman<T>::Huffman(const string &inStr, const string &outStr) {
     buildTree();
 
     //traverse tree, print out
-    outputTree("", huffmanTree[0]);
+    outputTree(huffmanTree[0]);
+
+    for(auto element : compressed) {
+        cout << element;
+    }
 
     cout << setw(6);
     //display tallies
@@ -89,9 +92,12 @@ Huffman<T>::Huffman(const string &inStr, const string &outStr) {
     }
     cout << endl;
 
-    cout << treeCode << endl << endl;
     //TODO create output file
 
+    cout << "Printing tree in compressed form: " << endl;
+    for(auto element : compressed) {
+        cout << element;
+    }
 
     inFile.close();
     outFile.close();
@@ -188,24 +194,39 @@ symbolNode<T> *Huffman<T>::deleteHuffmanNode() {
 
 // recursively traverses Huffman tree to generate codes
 template<class T>
-void Huffman<T>::outputTree(string code, symbolNode<T>* node) {
-    stringstream ss;
+void Huffman<T>::outputTree(symbolNode<T>* node) {
     // if node is a leaf output encoding
     if(!node->isInternalNode) {
-        cout << node->symbol << ": " << code << endl;
-        ss << treeCode << "1" << node->symbol;
-        ss >> treeCode;
+//        cout << node->symbol << ": " << code << endl;
+//        ss << treeCode << "1" << node->symbol;
+//        ss >> treeCode;
+        compressed.push_back(true); // 1 (true) symbolizes the following is a symbol
+        convertToBits(node->symbol); // appends the bit representation of nodes symbol to compressed
         return;
     } else {
-        ss << treeCode << "0";
-        ss >> treeCode;
+//        ss << treeCode << "0";
+//        ss >> treeCode;
+        compressed.push_back(false); // 0 (false) symbolizes an internal node
     }
-    // if node is not a leaf go left adding 0 to its code then go right adding 1 to its code
+    // if node is not a leaf go left then right
     if(node->leftPtr != nullptr) {
-        outputTree(code + "0", node->leftPtr); // CODE TO DELETE <<<
+        outputTree(node->leftPtr);
     }
     if(node->rightPtr != nullptr) {
-        outputTree(code + "1", node->rightPtr);
+        outputTree(node->rightPtr);
+    }
+}
+
+//converts a symbol to individual bits to be appended to vector<bool> compressed
+//... doesn't work with bool elements
+template<class T>
+void Huffman<T>::convertToBits(T element) {
+    int bits = sizeof(T)*8;
+    T currentBit;
+    for(int i = 0; i < bits; ++i) {
+        currentBit = 1 << (bits-i-1);
+        if(element & currentBit) { compressed.push_back(true); }
+        else { compressed.push_back(false); }
     }
 }
 
