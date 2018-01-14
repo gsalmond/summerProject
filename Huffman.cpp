@@ -299,29 +299,45 @@ void Huffman<T>::decode() {
     }
     encoded.close();
 
+    //calculate extra bits from first 3 bits
+    int extraBits = 0;
+    if(compressed[0]) { extraBits += 4; }
+    if(compressed[1]) { extraBits += 2; }
+    if(compressed[2]) { extraBits += 1; }
+    //remove extra bits from vector of bits (bool) compressed
+    if(extraBits) { compressed.erase(compressed.end()-(8-extraBits),compressed.end()); }
+
     cout << "Printing readin file after being compressed";
     for(auto elem : compressed) {
         cout << elem;
     }
     cout << endl;
 
-    //calculate extra bits from first 3 bits
-//    int extraBits = 0;
-//    if(compressed[0]) { extraBits += 4; }
-//    if(compressed[1]) { extraBits += 2; }
-//    if(compressed[2]) { extraBits += 1; }
+    int encodingStarts = 3;
+    decodeTree(encodingStarts);
+    cout << endl << "Encoding starts at: " << encodingStarts << endl;
+}
 
-    //start building Huffman tree for decompression
-    //need to do this recursively
-//    int i = 3;
-//    bool buildingTree = true;
-//    while(buildingTree) {
-//        bool isLeaf = compressed[i];
-//        if(isLeaf) {
-//
-//        }
-//        buildingTree = false;
-//    }
+template<class T>
+symbolNode<T>* Huffman<T>::decodeTree(int& i) {
+    auto node = new symbolNode<T>;
+    bool isLeaf = compressed[i];
+    if(isLeaf) {
+        T symbol = 0;
+        int shift = sizeof(T) * 8 - 1;
+        for(shift; shift >= 0; shift--) {
+            i++;
+            symbol = symbol | ((T)compressed[i] << shift);
+        }
+        i++;
+        node->symbol = symbol;
+        return node;
+    }
+    //otherwise node is internal node that points to other nodes
+    node->isInternalNode = true;
+    i++;
+    node->leftPtr = decodeTree(i);
+    node->rightPtr = decodeTree(i);
 }
 
 

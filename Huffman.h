@@ -50,6 +50,9 @@ public:
     void convertToBits(T element);
     // decode an encoded file
     void decode();
+    // builds prebuilt tree from encoded file
+    symbolNode<T>* decodeTree(int& i);
+
 };
 
 #endif //SUMMERPROJECT_HUFFMAN_H
