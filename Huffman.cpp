@@ -151,6 +151,8 @@ Huffman<T>::Huffman(const string &inStr, const string &outStr) {
     if(extraBits) { compressedFile << builtChar; }
 
     compressedFile.close();
+
+    decode();
 }
 
 // builds Huffman tree, continues until there is a single node
@@ -290,17 +292,24 @@ void Huffman<T>::decode() {
 
     // build vector compressed<bool> using convertToBits(T x)
     char x;
-    while(!encoded.eof()) {
+    while(true) {
         encoded.get(x);
+        if (encoded.eof()) { break; }
         convertToBits(x);
     }
     encoded.close();
 
+    cout << "Printing readin file after being compressed";
+    for(auto elem : compressed) {
+        cout << elem;
+    }
+    cout << endl;
+
     //calculate extra bits from first 3 bits
-    int extraBits = 0;
-    if(compressed[0]) { extraBits += 4; }
-    if(compressed[1]) { extraBits += 2; }
-    if(compressed[2]) { extraBits += 1; }
+//    int extraBits = 0;
+//    if(compressed[0]) { extraBits += 4; }
+//    if(compressed[1]) { extraBits += 2; }
+//    if(compressed[2]) { extraBits += 1; }
 
     //start building Huffman tree for decompression
     //need to do this recursively
