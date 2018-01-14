@@ -280,6 +280,16 @@ void Huffman<T>::convertToBits(T element) {
     }
 }
 
+template<class T>
+void Huffman<T>::decode() {
+    ifstream encoded("../testText.huffy");
+    if(!encoded.is_open()) {
+        exit(EXIT_FAILURE);
+    }
+
+    encoded.close();
+}
+
 template class Huffman<char>;
 template class Huffman<int>;
 template class Huffman<long>;

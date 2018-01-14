@@ -48,6 +48,8 @@ public:
     void outputTree(symbolNode<T>* node, std::vector<bool> code);
     //take a symbol and push its bit representation onto vector<bool> compressed
     void convertToBits(T element);
+    // decode an encoded file
+    void decode();
 };
 
 #endif //SUMMERPROJECT_HUFFMAN_H
