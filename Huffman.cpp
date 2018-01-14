@@ -118,7 +118,7 @@ Huffman<T>::Huffman(const string &inStr, const string &outStr) {
         }
     }
 
-    cout << "Printing tree in compressed form: " << endl;
+    cout << "Printing tree file in bits: " << endl;
     for(auto element : compressed) {
         cout << element;
     }
@@ -128,6 +128,29 @@ Huffman<T>::Huffman(const string &inStr, const string &outStr) {
 
     inFile.close();
     outFile.close();
+
+    // creating compressed output file
+
+    ofstream compressedFile("../testText.huffy");
+
+    auto extraBits = (unsigned char)((compressed.size()+3)%8);
+    auto builtChar = (unsigned char)(extraBits & 7);
+    builtChar = builtChar << 5;
+
+    int shift = 4;
+    const unsigned char one = 1;
+    for(auto bit : compressed) {
+        if(bit) { builtChar = builtChar | (one << shift); }
+        if(shift == 0) {
+            compressedFile << builtChar;
+            shift = 7;
+            builtChar = 0;
+        } else { shift--; }
+    }
+    // deal with extra bits
+    if(extraBits) { compressedFile << builtChar; }
+
+    compressedFile.close();
 }
 
 // builds Huffman tree, continues until there is a single node
