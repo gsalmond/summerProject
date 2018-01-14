@@ -283,12 +283,38 @@ void Huffman<T>::convertToBits(T element) {
 template<class T>
 void Huffman<T>::decode() {
     ifstream encoded("../testText.huffy");
-    if(!encoded.is_open()) {
-        exit(EXIT_FAILURE);
-    }
+    if(!encoded.is_open()) { exit(EXIT_FAILURE); }
 
+    compressed.clear();
+    codeMap.clear();
+
+    // build vector compressed<bool> using convertToBits(T x)
+    char x;
+    while(!encoded.eof()) {
+        encoded.get(x);
+        convertToBits(x);
+    }
     encoded.close();
+
+    //calculate extra bits from first 3 bits
+    int extraBits = 0;
+    if(compressed[0]) { extraBits += 4; }
+    if(compressed[1]) { extraBits += 2; }
+    if(compressed[2]) { extraBits += 1; }
+
+    //start building Huffman tree for decompression
+    //need to do this recursively
+//    int i = 3;
+//    bool buildingTree = true;
+//    while(buildingTree) {
+//        bool isLeaf = compressed[i];
+//        if(isLeaf) {
+//
+//        }
+//        buildingTree = false;
+//    }
 }
+
 
 template class Huffman<char>;
 template class Huffman<int>;
