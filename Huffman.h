@@ -6,6 +6,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <map>
 
 #ifndef SUMMERPROJECT_HUFFMAN_H
 #define SUMMERPROJECT_HUFFMAN_H
@@ -35,6 +36,8 @@ public:
     std::vector<symbolNode<T>*> huffmanTree;
     //vector<bool> representation of compressed file
     std::vector<bool> compressed;
+    //map of codes for individual symbols
+    std::map<T, std::vector<bool>> codeMap;
     //insert an element into Huffman tree (minheap)
     void insertHuffmanTree(symbolNode<T>* nodeToInsert);
     //delete a node and return a pointer to that node
@@ -42,7 +45,7 @@ public:
     //build Huffman tree from minheap of symbol node occurrences
     void buildTree();
     //traverse and output Huffman tree codes
-    void outputTree(symbolNode<T>* node);
+    void outputTree(symbolNode<T>* node, std::vector<bool> code);
     //take a symbol and push its bit representation onto vector<bool> compressed
     void convertToBits(T element);
 };

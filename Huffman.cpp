@@ -73,7 +73,7 @@ Huffman<T>::Huffman(const string &inStr, const string &outStr) {
     buildTree();
 
     //traverse tree, print out
-    outputTree(huffmanTree[0]);
+    outputTree(huffmanTree[0], vector<bool>());
 
     for(auto element : compressed) {
         cout << element;
@@ -98,6 +98,33 @@ Huffman<T>::Huffman(const string &inStr, const string &outStr) {
     for(auto element : compressed) {
         cout << element;
     }
+
+    cout << endl << "Printing map of codes" << endl;
+    for(auto elem : codeMap) {
+        cout << elem.first << " ";
+        for(auto x : elem.second) {
+            cout << x;
+        }
+        cout << endl;
+    }
+
+    //build up vector<bool> compressed
+    //... using codeMap<T, vector<bool>> and file symbols
+    inFile.close();
+    inFile.open(inStr);
+    while(inFile.get(c)) {
+        for(auto elem : codeMap[c]) {
+            compressed.push_back(elem);
+        }
+    }
+
+    cout << "Printing tree in compressed form: " << endl;
+    for(auto element : compressed) {
+        cout << element;
+    }
+
+    cout << endl << "Printing tree size: " << compressed.size() << " Including offset bits: " << compressed.size()+3
+         << " Additional bits: " << ((compressed.size()+3)%8) << " Size in bytes: " << ((compressed.size()+3)/8) << endl;
 
     inFile.close();
     outFile.close();
@@ -193,27 +220,27 @@ symbolNode<T> *Huffman<T>::deleteHuffmanNode() {
 }
 
 // recursively traverses Huffman tree to generate codes
+// ... building compressed version of tree for vector<bool> compressed
+// ... and building map of symbols and their codes for next pass of file to be compressed: map<T, vector<bool>> codeMap
 template<class T>
-void Huffman<T>::outputTree(symbolNode<T>* node) {
+void Huffman<T>::outputTree(symbolNode<T>* node, vector<bool> code) {
     // if node is a leaf output encoding
     if(!node->isInternalNode) {
-//        cout << node->symbol << ": " << code << endl;
-//        ss << treeCode << "1" << node->symbol;
-//        ss >> treeCode;
         compressed.push_back(true); // 1 (true) symbolizes the following is a symbol
         convertToBits(node->symbol); // appends the bit representation of nodes symbol to compressed
+        codeMap[node->symbol] = code; // code is now correct for this leaf, add to map of codes for symbols
         return;
-    } else {
-//        ss << treeCode << "0";
-//        ss >> treeCode;
-        compressed.push_back(false); // 0 (false) symbolizes an internal node
-    }
+    } else { compressed.push_back(false); } // 0 (false) symbolizes an internal node
     // if node is not a leaf go left then right
     if(node->leftPtr != nullptr) {
-        outputTree(node->leftPtr);
+        vector<bool> left = code;
+        left.push_back(false); // 0 (false) representing left
+        outputTree(node->leftPtr, left);
     }
     if(node->rightPtr != nullptr) {
-        outputTree(node->rightPtr);
+        vector<bool> right = code;
+        right.push_back(true); // 1 (true) representing right
+        outputTree(node->rightPtr, right);
     }
 }
 
