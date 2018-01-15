@@ -314,8 +314,28 @@ void Huffman<T>::decode() {
     cout << endl;
 
     int encodingStarts = 3;
-    decodeTree(encodingStarts);
+    symbolNode<T>* root = decodeTree(encodingStarts);
     cout << endl << "Encoding starts at: " << encodingStarts << endl;
+
+    //start building decoded file
+    ofstream decoded("../testText.decoded");
+    if(!decoded.is_open()) { exit(EXIT_FAILURE); }
+    int i = encodingStarts;
+    symbolNode<T>* current = root;
+
+    //go through encoded file and decode using Huffman tree in encoded file
+    while(i < compressed.size()) {
+        if(compressed[i] == false) { current = current->leftPtr;
+            cout << "Going left" << endl; } // false representing left
+        else { current = current->rightPtr; cout << "Going right" << endl; } // go right
+        ++i;
+        if(!current->isInternalNode) {
+            cout << "Symbol: " << (int)current->symbol << endl;
+            decoded << current->symbol;
+            current = root;
+        }
+    }
+    decoded.close();
 }
 
 template<class T>
