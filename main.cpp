@@ -14,8 +14,8 @@ int main () {
     //     possibly extend to allow various compression algorithms and options
 //    string inStr = "../cantCorpus/alice29.txt";
 //    string outStr = "../cantCorpus/alice29.huffCode";
-    string inStr = "../testText.txt";
-    string outStr = "../testText.huffCode";
+    string inStr = "../alice29.txt";
+    string outStr = "../alice29.huffCode";
 
     //TODO allow selection of different compression algorithms
 

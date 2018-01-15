@@ -43,7 +43,7 @@ Huffman<T>::Huffman(const string &inStr, const string &outStr) {
     outFile.open(outStr);
     char c;
     while(inFile.get(c)) {
-        outFile << c;
+        //outFile << c;
         ///////////////////////////
         ++tallies[(int)c]; //DELETE
         ///////////////////////////
@@ -127,11 +127,10 @@ Huffman<T>::Huffman(const string &inStr, const string &outStr) {
          << " Additional bits: " << ((compressed.size()+3)%8) << " Size in bytes: " << ((compressed.size()+3)/8) << endl;
 
     inFile.close();
-    outFile.close();
 
     // creating compressed output file
 
-    ofstream compressedFile("../testText.huffy");
+    ofstream compressedFile("../alice29.huffCode");
 
     auto extraBits = (unsigned char)((compressed.size()+3)%8);
     auto builtChar = (unsigned char)(extraBits & 7);
@@ -153,6 +152,7 @@ Huffman<T>::Huffman(const string &inStr, const string &outStr) {
     compressedFile.close();
 
     decode();
+    outFile.close();
 }
 
 // builds Huffman tree, continues until there is a single node
@@ -282,9 +282,10 @@ void Huffman<T>::convertToBits(T element) {
     }
 }
 
+// decode an encoded file
 template<class T>
 void Huffman<T>::decode() {
-    ifstream encoded("../testText.huffy");
+    ifstream encoded("../alice29.huffCode");
     if(!encoded.is_open()) { exit(EXIT_FAILURE); }
 
     compressed.clear();
@@ -307,7 +308,7 @@ void Huffman<T>::decode() {
     //remove extra bits from vector of bits (bool) compressed
     if(extraBits) { compressed.erase(compressed.end()-(8-extraBits),compressed.end()); }
 
-    cout << "Printing readin file after being compressed";
+    cout << "Printing read in file after being compressed";
     for(auto elem : compressed) {
         cout << elem;
     }
@@ -318,19 +319,17 @@ void Huffman<T>::decode() {
     cout << endl << "Encoding starts at: " << encodingStarts << endl;
 
     //start building decoded file
-    ofstream decoded("../testText.decoded");
+    ofstream decoded("../alice29.decoded");
     if(!decoded.is_open()) { exit(EXIT_FAILURE); }
     int i = encodingStarts;
     symbolNode<T>* current = root;
 
     //go through encoded file and decode using Huffman tree in encoded file
     while(i < compressed.size()) {
-        if(compressed[i] == false) { current = current->leftPtr;
-            cout << "Going left" << endl; } // false representing left
-        else { current = current->rightPtr; cout << "Going right" << endl; } // go right
+        if(compressed[i] == false) { current = current->leftPtr; } // false representing left
+        else { current = current->rightPtr; } // go right
         ++i;
         if(!current->isInternalNode) {
-            cout << "Symbol: " << (int)current->symbol << endl;
             decoded << current->symbol;
             current = root;
         }
@@ -338,6 +337,7 @@ void Huffman<T>::decode() {
     decoded.close();
 }
 
+// builds prebuilt tree from encoded file
 template<class T>
 symbolNode<T>* Huffman<T>::decodeTree(int& i) {
     auto node = new symbolNode<T>;
