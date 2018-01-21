@@ -53,7 +53,8 @@ public:
     void decode();
     // builds prebuilt tree from encoded file
     symbolNode<T>* decodeTree(int& i);
-
+    // returns number of bits in a symbol
+    int bitsInSymbol(int bytes);
 };
 
 #endif //SUMMERPROJECT_HUFFMAN_H
