@@ -11,9 +11,9 @@
 
 using namespace std;
 
-//performs Huffman compression coding on a file and creates a .huffCode file of the same name
-template <class T>
-Huffman<T>::Huffman(const string &inStr, const string &outStr) {
+// encodes/compresses a file using Huffman's code
+template<class T>
+void Huffman<T>::encode(const std::string &inStr, const std::string &outStr) {
     //open file, check exists
     inFile.open(inStr);
     if(!inFile.is_open()) {
@@ -359,7 +359,6 @@ symbolNode<T>* Huffman<T>::decodeTree(int& i) {
     node->leftPtr = decodeTree(i);
     node->rightPtr = decodeTree(i);
 }
-
 
 template class Huffman<char>;
 template class Huffman<int>;

@@ -25,7 +25,6 @@ struct symbolNode {
 template <class T>
 class Huffman {
 public:
-    Huffman(const std::string &inStr, const std::string &outStr);
     //file to compress
     std::ifstream inFile;
     //destination of resulting compressed file
@@ -48,6 +47,8 @@ public:
     void outputTree(symbolNode<T>* node, std::vector<bool> code);
     //take a symbol and push its bit representation onto vector<bool> compressed
     void convertToBits(T element);
+    // encode a file with huffman's code
+    void encode(const std::string &inStr, const std::string &outStr);
     // decode an encoded file
     void decode();
     // builds prebuilt tree from encoded file

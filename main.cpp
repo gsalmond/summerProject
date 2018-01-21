@@ -20,7 +20,8 @@ int main () {
     //TODO allow selection of different compression algorithms
 
     //calling compression algorithm on file(s) to be compressed
-    Huffman<char> huffCompress(inStr, outStr);
+    Huffman<char> huffCompress;
+    huffCompress.encode(inStr, outStr);
 
     //TODO display statistics for compressed and decompressed file, perform check to see decoded file matches original
     //... push this functionality into compression classes
