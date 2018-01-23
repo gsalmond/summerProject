@@ -32,8 +32,6 @@ public:
 private:
     //file to compress
     std::ifstream inFile;
-    //destination of resulting compressed file
-    std::ofstream outFile;
     //initial vector for counting up occurrences of a symbol in a file(s)
     std::vector<symbolNode<T>*> initialNodes;
     //min heap to become a huffman tree
@@ -56,6 +54,8 @@ private:
     symbolNode<T>* decodeTree(int& i);
     // returns number of bits in a symbol
     int bitsInSymbol(int bytes);
+    // creates a compressed file using vector<bool> compressed
+    void createCompressed() const;
 };
 
 #endif //SUMMERPROJECT_HUFFMAN_H

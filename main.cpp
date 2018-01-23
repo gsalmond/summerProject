@@ -8,12 +8,17 @@
 
 using namespace std;
 
-int main () {
+int main (int argc, char* argv[]) {
 
+    // parse command line arguments
+    cout << "argc: " << argc << endl;
+    for(int i = 0; i < argc; ++i) {
+        cout << argv[i] << endl;
+    }
     //TODO eventually grab file(s) to compress from command line arguments
     //     possibly extend to allow various compression algorithms and options
-//    string inStr = "../cantCorpus/alice29.txt";
-//    string outStr = "../cantCorpus/alice29.huffCode";
+//    string inStr = "alice29.txt";
+//    string outStr = "alice29.huffCode";
     string inStr = "../alice29.txt";
     string outStr = "../alice29.huffCode";
 
@@ -22,6 +27,7 @@ int main () {
     //calling compression algorithm on file(s) to be compressed
     Huffman<char> huffCompress;
     huffCompress.encode(inStr, outStr);
+    huffCompress.decode();
 
     //TODO display statistics for compressed and decompressed file, perform check to see decoded file matches original
     //... push this functionality into compression classes

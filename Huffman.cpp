@@ -17,7 +17,6 @@ void Huffman<T>::encode(const std::string &inStr, const std::string &outStr) {
     const int UNIQUE_SYMBOLS = bitsInSymbol(sizeof(T));
     if(UNIQUE_SYMBOLS != 256) { cout << "Error with expected symbol size" << UNIQUE_SYMBOLS; exit(EXIT_FAILURE); }
 
-    //open file, check exists
     inFile.open(inStr);
     if(!inFile.is_open()) {
         cout << "Error opening file: " + inStr;
@@ -27,50 +26,47 @@ void Huffman<T>::encode(const std::string &inStr, const std::string &outStr) {
     //initialise vector of every symbol
     for(int i = 0; i < UNIQUE_SYMBOLS; ++i) {
         auto* temp = new symbolNode<T>;
-        temp->symbol = (T)i;
+        temp->symbol = (T)i; // casting to create each symbol
         initialNodes.push_back(temp);
     }
 
-    ///////////////////////////
-    //DELETE THIS EVENTUALLY
-    //an array of number of tallies a symbol appears in a file
-    long tallies[256];
-    //initialise tallies
-    for (auto &&item : tallies) {
-        item = 0;
-    }
-    ///////////////////////////
+//    ///////////////////////////
+//    //DELETE THIS EVENTUALLY
+//    //an array of number of tallies a symbol appears in a file
+//    long tallies[256];
+//    //initialise tallies
+//    for (auto &&item : tallies) {
+//        item = 0;
+//    }
+//    ///////////////////////////
 
     //go through file and count occurrence of each symbol
     //copying file into output file
-    outFile.open(outStr);
     char c;
     while(inFile.get(c)) {
         //outFile << c;
-        ///////////////////////////
-        ++tallies[(int)c]; //DELETE
-        ///////////////////////////
+//        ///////////////////////////
+//        ++tallies[(int)c]; //DELETE
+//        ///////////////////////////
         //treating each symbol as a number for indexing vector
         initialNodes[c]->count++;
     }
 
-    ////////////////////////////
-    //CAN DELETE THIS EVENTUALLY
-    cout << setw(6);
-    //display tallies
-    for (int i = 0; i < 256; i++) {
-        if(i % 10 == 0 && i != 0) { cout << endl; }
-        cout << setw(4) << i << ": " << setw(6) << tallies[i] << ", ";
-
-    }
-    cout << endl;
-    ////////////////////////////
+//    ////////////////////////////
+//    //CAN DELETE THIS EVENTUALLY
+//    cout << setw(6);
+//    //display tallies
+//    for (int i = 0; i < 256; i++) {
+//        if(i % 10 == 0 && i != 0) { cout << endl; }
+//        cout << setw(4) << i << ": " << setw(6) << tallies[i] << ", ";
+//
+//    }
+//    cout << endl;
+//    ////////////////////////////
 
     //insert every symbol into minheap
     //... implementing own minheap for practice/academic purposes
-    for(auto&& symbolNode : initialNodes) {
-        insertHuffmanTree(symbolNode);
-    }
+    for(auto&& symbolNode : initialNodes) { insertHuffmanTree(symbolNode); }
 
     //construct huffman tree
     buildTree();
@@ -78,38 +74,36 @@ void Huffman<T>::encode(const std::string &inStr, const std::string &outStr) {
     //traverse tree, print out
     outputTree(huffmanTree[0], vector<bool>());
 
-    for(auto element : compressed) {
-        cout << element;
-    }
+//    for(auto element : compressed) {
+//        cout << element;
+//    }
 
-    cout << setw(6);
-    //display tallies
-    for (int i = 0; i < initialNodes.size(); i++) {
-        if(i % 10 == 0 && i != 0) { cout << endl; }
-        cout << setw(4) << i << ": " << setw(6) << initialNodes[i]->count << ", ";
-    }
-    cout << endl;
-    for (int i = 0; i < huffmanTree.size(); i++) {
-        if(i % 10 == 0 && i != 0) { cout << endl; }
-        cout << setw(4) << i << ": " << setw(6) << huffmanTree[i]->count << ", ";
-    }
-    cout << endl;
-
-    //TODO create output file
-
-    cout << "Printing tree in compressed form: " << endl;
-    for(auto element : compressed) {
-        cout << element;
-    }
-
-    cout << endl << "Printing map of codes" << endl;
-    for(auto elem : codeMap) {
-        cout << elem.first << " ";
-        for(auto x : elem.second) {
-            cout << x;
-        }
-        cout << endl;
-    }
+//    cout << setw(6);
+//    //display tallies
+//    for (int i = 0; i < initialNodes.size(); i++) {
+//        if(i % 10 == 0 && i != 0) { cout << endl; }
+//        cout << setw(4) << i << ": " << setw(6) << initialNodes[i]->count << ", ";
+//    }
+//    cout << endl;
+//    for (int i = 0; i < huffmanTree.size(); i++) {
+//        if(i % 10 == 0 && i != 0) { cout << endl; }
+//        cout << setw(4) << i << ": " << setw(6) << huffmanTree[i]->count << ", ";
+//    }
+//    cout << endl;
+//
+//    cout << "Printing tree in compressed form: " << endl;
+//    for(auto element : compressed) {
+//        cout << element;
+//    }
+//
+//    cout << endl << "Printing map of codes" << endl;
+//    for(auto elem : codeMap) {
+//        cout << elem.first << " ";
+//        for(auto x : elem.second) {
+//            cout << x;
+//        }
+//        cout << endl;
+//    }
 
     //build up vector<bool> compressed
     //... using codeMap<T, vector<bool>> and file symbols
@@ -121,29 +115,38 @@ void Huffman<T>::encode(const std::string &inStr, const std::string &outStr) {
         }
     }
 
-    cout << "Printing tree file in bits: " << endl;
-    for(auto element : compressed) {
-        cout << element;
-    }
+//    cout << "Printing tree file in bits: " << endl;
+//    for(auto element : compressed) {
+//        cout << element;
+//    }
+
+    inFile.close();
 
     cout << endl << "Printing tree size: " << compressed.size() << " Including offset bits: " << compressed.size()+3
          << " Additional bits: " << ((compressed.size()+3)%8) << " Size in bytes: " << ((compressed.size()+3)/8) << endl;
 
-    inFile.close();
+    //create compressed file
+    createCompressed();
+}
 
-    // creating compressed output file
+// creates compressed file using vector<bool> compressed
+template<class T>
+void Huffman<T>::createCompressed() const {
 
     ofstream compressedFile("../alice29.huffCode");
 
-    auto extraBits = (unsigned char)((compressed.size()+3)%8);
-    auto builtChar = (unsigned char)(extraBits & 7);
-    builtChar = builtChar << 5;
+    const int HEADER_BITS = 3; // number of bits used in compressed file to represent extra bits
+    const int HEADER_AND = 7; // used with bitwise & to get header bits from compressed file
+    const int BYTE_BITS = 8; // number of bits in a byte
+    auto extraBits = (unsigned char)((compressed.size() + HEADER_BITS) % BYTE_BITS);
+    auto builtChar = (unsigned char)(extraBits & HEADER_AND); // adding header bits to front of compressed file
+    builtChar = builtChar << (BYTE_BITS-HEADER_BITS); // shift header bits to correct position
 
-    int shift = 4;
+    int shift = BYTE_BITS-HEADER_BITS-1; // where to place the first bit for the compressed file after header bits
     const unsigned char one = 1;
     for(auto bit : compressed) {
-        if(bit) { builtChar = builtChar | (one << shift); }
-        if(shift == 0) {
+        if(bit) { builtChar = builtChar | (one << shift); } // place bit in compressed file if set
+        if(shift == 0) { // once a full byte is built add it to file and start building next byte
             compressedFile << builtChar;
             shift = 7;
             builtChar = 0;
@@ -153,9 +156,6 @@ void Huffman<T>::encode(const std::string &inStr, const std::string &outStr) {
     if(extraBits) { compressedFile << builtChar; }
 
     compressedFile.close();
-
-    decode();
-    outFile.close();
 }
 
 // builds Huffman tree, continues until there is a single node
@@ -312,12 +312,10 @@ void Huffman<T>::decode() {
     if(extraBits) { compressed.erase(compressed.end()-(8-extraBits),compressed.end()); }
 
     cout << "Printing read in file after being compressed";
-    for(auto elem : compressed) {
-        cout << elem;
-    }
+    for(auto elem : compressed) { cout << elem; }
     cout << endl;
 
-    int encodingStarts = 3;
+    int encodingStarts = 3; //starting at index 3 after the initial header bits find where tree ends and encoding begins
     symbolNode<T>* root = decodeTree(encodingStarts);
     cout << endl << "Encoding starts at: " << encodingStarts << endl;
 
@@ -348,9 +346,10 @@ symbolNode<T>* Huffman<T>::decodeTree(int& i) {
     if(isLeaf) {
         T symbol = 0;
         int shift = sizeof(T) * 8 - 1;
-        for(shift; shift >= 0; shift--) {
+        while(shift >= 0) {
             i++;
             symbol = symbol | ((T)compressed[i] << shift);
+            shift--;
         }
         i++;
         node->symbol = symbol;
