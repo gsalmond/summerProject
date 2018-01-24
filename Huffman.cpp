@@ -34,39 +34,13 @@ void Huffman<T>::encode(const std::string &inStr) {
         initialNodes.push_back(temp);
     }
 
-//    ///////////////////////////
-//    //DELETE THIS EVENTUALLY
-//    //an array of number of tallies a symbol appears in a file
-//    long tallies[256];
-//    //initialise tallies
-//    for (auto &&item : tallies) {
-//        item = 0;
-//    }
-//    ///////////////////////////
-
     //go through file and count occurrence of each symbol
     //copying file into output file
     char c;
     while(inFile.get(c)) {
-        //outFile << c;
-//        ///////////////////////////
-//        ++tallies[(int)c]; //DELETE
-//        ///////////////////////////
         //treating each symbol as a number for indexing vector
         initialNodes[c]->count++;
     }
-
-//    ////////////////////////////
-//    //CAN DELETE THIS EVENTUALLY
-//    cout << setw(6);
-//    //display tallies
-//    for (int i = 0; i < 256; i++) {
-//        if(i % 10 == 0 && i != 0) { cout << endl; }
-//        cout << setw(4) << i << ": " << setw(6) << tallies[i] << ", ";
-//
-//    }
-//    cout << endl;
-//    ////////////////////////////
 
     //insert every symbol into minheap
     //... implementing own minheap for practice/academic purposes
