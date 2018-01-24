@@ -14,8 +14,12 @@ using namespace std;
 // encodes/compresses a file using Huffman's code
 template<class T>
 void Huffman<T>::encode(const std::string &inStr) {
-    const int UNIQUE_SYMBOLS = bitsInSymbol(sizeof(T));
-    if(UNIQUE_SYMBOLS != 256) { cout << "Error with expected symbol size" << UNIQUE_SYMBOLS; exit(EXIT_FAILURE); }
+    const unsigned long long UNIQUE_SYMBOLS = bitsInSymbol(sizeof(T));
+    if(UNIQUE_SYMBOLS != bitsInSymbol(sizeof(char)) && UNIQUE_SYMBOLS != bitsInSymbol(sizeof(int))) {
+        cout << "Error with expected symbol size: "
+             << UNIQUE_SYMBOLS << " Actual: " << bitsInSymbol(sizeof(T));
+        exit(EXIT_FAILURE);
+    }
 
     inFile.open(inStr);
     if(!inFile.is_open()) {
@@ -24,7 +28,7 @@ void Huffman<T>::encode(const std::string &inStr) {
     }
 
     //initialise vector of every symbol
-    for(int i = 0; i < UNIQUE_SYMBOLS; ++i) {
+    for(unsigned long long i = 0; i < UNIQUE_SYMBOLS; ++i) {
         auto* temp = new symbolNode<T>;
         temp->symbol = (T)i; // casting to create each symbol
         initialNodes.push_back(temp);
@@ -366,10 +370,10 @@ symbolNode<T>* Huffman<T>::decodeTree(int& i) {
 }
 
 template<class T>
-int Huffman<T>::bitsInSymbol(int bytes) {
-    const int numBits = 8 * bytes;
-    int result {1};
-    for(int i {}; i < numBits; ++i) { result *= 2; }
+unsigned long long Huffman<T>::bitsInSymbol(unsigned long long bytes) {
+    const unsigned long long numBits = 8 * bytes;
+    unsigned long long result = 1;
+    for(unsigned long long i = 0; i < numBits; ++i) { result *= 2; }
     return result;
 }
 

@@ -53,7 +53,7 @@ private:
     // builds prebuilt tree from encoded file
     symbolNode<T>* decodeTree(int& i);
     // returns number of bits in a symbol
-    int bitsInSymbol(int bytes);
+    unsigned long long bitsInSymbol(unsigned long long bytes);
     // creates a compressed file using vector<bool> compressed
     void createCompressed(const std::string& inStr) const;
 };
