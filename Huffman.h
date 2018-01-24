@@ -26,9 +26,9 @@ template <class T>
 class Huffman {
 public:
     // encode a file with huffman's code
-    void encode(const std::string &inStr, const std::string &outStr);
+    void encode(const std::string &inStr);
     // decode an encoded file
-    void decode();
+    void decode(const std::string &fileStr);
 private:
     //file to compress
     std::ifstream inFile;

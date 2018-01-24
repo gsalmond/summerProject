@@ -13,7 +13,7 @@ using namespace std;
 
 // encodes/compresses a file using Huffman's code
 template<class T>
-void Huffman<T>::encode(const std::string &inStr, const std::string &outStr) {
+void Huffman<T>::encode(const std::string &inStr) {
     const int UNIQUE_SYMBOLS = bitsInSymbol(sizeof(T));
     if(UNIQUE_SYMBOLS != 256) { cout << "Error with expected symbol size" << UNIQUE_SYMBOLS; exit(EXIT_FAILURE); }
 
@@ -287,8 +287,8 @@ void Huffman<T>::convertToBits(T element) {
 
 // decode an encoded file
 template<class T>
-void Huffman<T>::decode() {
-    ifstream encoded("../alice29.huffCode");
+void Huffman<T>::decode(const string& fileStr) {
+    ifstream encoded(fileStr);
     if(!encoded.is_open()) { exit(EXIT_FAILURE); }
 
     compressed.clear();
