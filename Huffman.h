@@ -55,7 +55,7 @@ private:
     // returns number of bits in a symbol
     int bitsInSymbol(int bytes);
     // creates a compressed file using vector<bool> compressed
-    void createCompressed() const;
+    void createCompressed(const std::string& inStr) const;
 };
 
 #endif //SUMMERPROJECT_HUFFMAN_H

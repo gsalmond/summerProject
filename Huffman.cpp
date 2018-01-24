@@ -126,14 +126,15 @@ void Huffman<T>::encode(const std::string &inStr) {
          << " Additional bits: " << ((compressed.size()+3)%8) << " Size in bytes: " << ((compressed.size()+3)/8) << endl;
 
     //create compressed file
-    createCompressed();
+    createCompressed(inStr);
 }
 
 // creates compressed file using vector<bool> compressed
 template<class T>
-void Huffman<T>::createCompressed() const {
+void Huffman<T>::createCompressed(const string& inStr) const {
 
-    ofstream compressedFile("../alice29.huffCode");
+    string compressedStr = inStr + ".huffCode";
+    ofstream compressedFile(compressedStr);
 
     const int HEADER_BITS = 3; // number of bits used in compressed file to represent extra bits
     const int HEADER_AND = 7; // used with bitwise & to get header bits from compressed file
@@ -320,7 +321,9 @@ void Huffman<T>::decode(const string& fileStr) {
     cout << endl << "Encoding starts at: " << encodingStarts << endl;
 
     //start building decoded file
-    ofstream decoded("../alice29.decoded");
+    string decodedStr = fileStr;
+    decodedStr.erase(decodedStr.end()-4, decodedStr.end());
+    ofstream decoded(decodedStr);
     if(!decoded.is_open()) { exit(EXIT_FAILURE); }
     int i = encodingStarts;
     symbolNode<T>* current = root;
