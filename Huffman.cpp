@@ -322,7 +322,7 @@ void Huffman<T>::decode(const string& fileStr) {
 
     //start building decoded file
     string decodedStr = fileStr;
-    decodedStr.erase(decodedStr.end()-4, decodedStr.end());
+    decodedStr.replace(decodedStr.end()-string("huffCode").length(),decodedStr.end(),"decoded");
     ofstream decoded(decodedStr);
     if(!decoded.is_open()) { exit(EXIT_FAILURE); }
     int i = encodingStarts;
