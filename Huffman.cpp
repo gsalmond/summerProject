@@ -21,12 +21,6 @@ void Huffman<T>::encode(const std::string &inStr) {
         exit(EXIT_FAILURE);
     }
 
-    inFile.open(inStr, ios::binary);
-    if(!inFile.is_open()) {
-        cout << "Error opening file: " + inStr;
-        exit(EXIT_FAILURE);
-    }
-
     //initialise vector of every symbol
     for(unsigned long long i = 0; i < UNIQUE_SYMBOLS; ++i) {
         auto* temp = new symbolNode<T>;
@@ -34,13 +28,37 @@ void Huffman<T>::encode(const std::string &inStr) {
         initialNodes.push_back(temp);
     }
 
+    inFile.open(inStr, ios::ate | ios::binary);
+    if(!inFile.is_open()) {
+        cout << "Error opening file: " + inStr;
+        exit(EXIT_FAILURE);
+    }
+
+    const streampos fileSize = inFile.tellg();
+    const streampos sizeOfT = sizeof(T);
+    const streampos extraBytes = fileSize % sizeOfT;
+    const streampos extraSize = fileSize + (sizeOfT-extraBytes);
+
+    auto fileContents = new char[extraSize];
+
+    inFile.seekg(0, ios::beg);
+    inFile.read(fileContents, fileSize);
+    inFile.close();
+
+    //go through file and count occurrence of each symbol
+    for(int i = 0; i < fileSize; i+=sizeOfT) {
+        //treating each symbol as a number for indexing vector
+        initialNodes[fileContents[i]]->count++;
+    }
+
     //go through file and count occurrence of each symbol
     //copying file into output file
-    char c;
-    while(inFile.get(c)) {
-        //treating each symbol as a number for indexing vector
-        initialNodes[c]->count++;
-    }
+//    char c;
+//    while(inFile.get(c)) {
+//        //treating each symbol as a number for indexing vector
+//        initialNodes[c]->count++;
+//    }
+
 
     //insert every symbol into minheap
     //... implementing own minheap for practice/academic purposes
@@ -85,10 +103,18 @@ void Huffman<T>::encode(const std::string &inStr) {
 
     //build up vector<bool> compressed
     //... using codeMap<T, vector<bool>> and file symbols
-    inFile.close();
-    inFile.open(inStr);
-    while(inFile.get(c)) {
-        for(auto elem : codeMap[c]) {
+//    inFile.close();
+//    inFile.open(inStr);
+//    while(inFile.get(c)) {
+//        for(auto elem : codeMap[c]) {
+//            compressed.push_back(elem);
+//        }
+//    }
+
+    //build up vector<bool> compressed
+    //... using codeMap<T, vector<bool>> and file symbols
+    for(int i = 0; i < fileSize; i+=sizeOfT) {
+        for(auto elem : codeMap[fileContents[i]]) {
             compressed.push_back(elem);
         }
     }
@@ -98,7 +124,7 @@ void Huffman<T>::encode(const std::string &inStr) {
 //        cout << element;
 //    }
 
-    inFile.close();
+//    inFile.close();
 
     cout << endl << "Printing tree size: " << compressed.size() << " Including offset bits: " << compressed.size()+3
          << " Additional bits: " << ((compressed.size()+3)%8) << " Size in bytes: " << ((compressed.size()+3)/8) << endl;
