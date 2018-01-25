@@ -21,7 +21,7 @@ void Huffman<T>::encode(const std::string &inStr) {
         exit(EXIT_FAILURE);
     }
 
-    inFile.open(inStr);
+    inFile.open(inStr, ios::binary);
     if(!inFile.is_open()) {
         cout << "Error opening file: " + inStr;
         exit(EXIT_FAILURE);
