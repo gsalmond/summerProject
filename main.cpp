@@ -10,7 +10,7 @@ using namespace std;
 
 int main (int argc, char* argv[]) {
 
-    string fileArgument {};
+        string fileArgument {};
     bool both = false;
     if(argc == 2) {
         fileArgument = string(argv[1]);
@@ -20,9 +20,11 @@ int main (int argc, char* argv[]) {
     } else {
         cout << "Arguments not valid, enter a single file name or option and a file name" << endl;
     }
+//    fileArgument = "../a.out";
+//    both = true;
 
     //calling compression algorithm on file(s) to be compressed
-    Huffman<char> huffCompress;
+    Huffman<unsigned char> huffCompress;
     if(fileArgument.find(".huffCode") == string::npos) {
         cout << "Encoding file: " + fileArgument << endl;
         huffCompress.encode(fileArgument);
