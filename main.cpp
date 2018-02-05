@@ -19,6 +19,7 @@ int main (int argc, char* argv[]) {
         both = true;
     } else {
         cout << "Arguments not valid, enter a single file name or option and a file name" << endl;
+        exit(EXIT_FAILURE);
     }
 //    fileArgument = "../a.out";
 //    both = true;
