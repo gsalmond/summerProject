@@ -1,8 +1,6 @@
-\section{Data Compression}
-\doublespacing
 
 
-\subsection{What is data compression}
+\section{What is data compression}
 
 
 \singlespacing
@@ -31,7 +29,7 @@ The compressed ratio (C$_{r}$) is equal to the compressed file size ($d_{1}$) ov
 
 \doublespacing
 \singlespacing
-\subsection{Lossless Compression}
+\section{Lossless Compression}
 
 
 \singlespacing
@@ -52,7 +50,7 @@ The two most common ways of constructing statistical models for the purposes of 
 
 \doublespacing
 \singlespacing
-\subsection{Lossy Compression}
+\section{Lossy Compression}
 
 
 \singlespacing
@@ -63,7 +61,7 @@ Lossy compression works by removing less important information from a data file.
 
 \doublespacing
 \singlespacing
-\subsection{Use cases}
+\section{Use cases}
 
 
 \singlespacing
@@ -80,7 +78,7 @@ Many of the lossless compression algorithms in use today combine Huffman Coding 
 
 \doublespacing
 \singlespacing
-\subsection{Entropy}
+\section{Entropy}
 
 
 \singlespacing
@@ -111,7 +109,22 @@ There is no single lossless data compression algorithm that can compress any and
 
 \section{Huffman Coding}
 
-Blah blah \cite{BookVLC}.
+
+\doublespacing
+\singlespacing
+Huffman coding is an algorithm developed by David Huffman in 1951. He came up with his method as a student studying information theory at the Massachusetts Institute of Technology \cite{WikiHuffman}.
 
 
+\doublespacing
+\singlespacing
+A Huffman code refers to a prefix code, an encoded representation of a symbol whereas Huffman coding is the process of creating and decoding Huffman codes. Huffman coding is a lossless data compression algorithm. There are two major tasks for the algorithm to perform. Encoding a data file and decoding an encoded file with the goal being achieving an optimal compression ratio.
 
+
+\doublespacing
+\singlespacing
+Encoding a file involves building a Huffman tree, a type top down binary tree used to create prefix codes for symbols. Symbols that occur more frequently are closer to the root of the tree and ones that occur less frequently are found at lower levels of the tree.
+
+
+\doublespacing
+\singlespacing
+Decoding a file involves using a built Huffman tree to decode a sequence of encoded symbols into their original form. A Huffman tree for any given file is not necessarily unique so a Huffman tree must also be extracted in the decoding process.

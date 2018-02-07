@@ -1,8 +1,17 @@
 \documentclass{report}
 
+\usepackage{url}
+\usepackage{blindtext}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{setspace}
+
 \title{Huffman Code File Compression\\159.333 Programming Project}
 \date{Summer School\\2017/2018}
-\author{Gray Salmond\\ Student ID: 15366621}
+\author{Gray Salmond\\ Student ID: 15366621\\
+Supervisor: Dr. Andre Barczack}
 
 
 \begin{document}
@@ -20,10 +29,18 @@
 \chapter{Literature Review}
 
 
+\include{chapter1}
+
 \chapter{Implementation}
 
+\include{chapter2}
 
 \chapter{Results}
 
-Why hello
+
+
+\bibliography{myRefs} 
+\bibliographystyle{ieeetr}
+
+
 \end{document}
