@@ -9,15 +9,15 @@ To build project
     First install required packages
 
         sudo apt install g++
-        sudo apt install CMake
 
     Build the project
 
-        cmake -H. -Bbuild
-        cmake --build build -- -j3
+        g++ -o huffman.out main.cpp huffman.h huffman.cpp
 
-To run project
+To run project (Linux/OSX)
 
-    From application directory
+        ./huffman.out [-b] <file to compress>
 
-        ./build/summerProject
+        -b flag will perform both encoding and decoding
+        otherwise a file without .huffCode suffix will be encoded
+        a file with .huffCode suffix will be decoded
