@@ -9,7 +9,7 @@ The implementation of Huffman coding describe in this report was implemented in 
 
 \doublespacing
 \singlespacing
-Huffman coding comprises of two distinct parts. Encoding, taking a uncompressed file and compressing it by building a Huffman tree. And decoding, using a Huffman tree to decompress a file previously compressed using the application.
+Huffman coding comprises of two distinct parts. Encoding, taking an uncompressed file and compressing it by building a Huffman tree. And decoding, using a Huffman tree to decompress a file previously compressed using the application.
 
 
 \doublespacing
@@ -19,7 +19,7 @@ The project is available as open source via GitHub \cite{GitLink} and made use o
 
 \doublespacing
 \singlespacing
-The implementation has the option of encoding a file and decoding a file at the same time for demonstartion purposes. Encoded file filenames are suffixed with .huffCode and decoded files replace the .huffCode suffix with .decoded, the original file is retained for comparison purposes.
+The implementation has the option of encoding a file and decoding a file at the same time for demonstration purposes. Encoded file filenames are suffixed with .huffCode and decoded files replace the .huffCode suffix with .decoded, the original file is retained for comparison purposes.
 
 
 \doublespacing
@@ -28,7 +28,7 @@ The implementation has the option of encoding a file and decoding a file at the 
 
 
 \singlespacing
-Encoding a file using Huffman code requires two passes of the original file. The first pass count occurrences of a unique symbol within a file and uses this information to build a Huffman tree. A symbol could be any size of bits, for this implementation the initial symbol size is a single byte (8 bits) of which there are 256 possible combinations. The second pass uses the built Huffman tree to build the encoded file by comparing the symbols in the original file to the newly created Huffman codes as defined by the Huffman tree.
+Encoding a file using Huffman code requires two passes of the original file. The first pass counts occurrences of a unique symbol within a file and uses this information to build a Huffman tree. A symbol could be any size of bits, for this implementation the initial symbol size is a single byte (8 bits) of which there are 256 possible combinations. The second pass uses the built Huffman tree to build the encoded file by comparing the symbols in the original file to the newly created Huffman codes as defined by the Huffman tree.
 
 
 \doublespacing
@@ -37,7 +37,14 @@ Encoding a file using Huffman code requires two passes of the original file. The
 
 
 \singlespacing
-As mention previously the first pass involves counting the frequencies of a unique symbol in a file. The implementation represents symbols as a struct, which contain data on which symbol and how many occurrences of the symbol there are. The application to be compressed is examined linearly and the count values are updated as symbols are examined. Much of the literature on Huffman coding uses frequencies instead of counts, however, this implementation uses integer counts instead of percentage frequencies.
+As mentioned previously the first pass involves counting the frequencies of a unique symbol in a file. The implementation represents symbols as a struct, which contains data on which symbol and how many occurrences of the symbol there are. The application to be compressed is examined linearly and the count values are updated as symbols are examined. Much of the literature on Huffman coding uses frequencies instead of counts, however, this implementation uses integer counts instead of percentage frequencies.
+
+
+\begin{figure}[H]
+\caption{Counting occurrences of a basic file}
+\includegraphics[scale=0.3]{slide1}
+\centering
+\end{figure}
 
 
 \subsection{Building a Huffman tree}
@@ -45,17 +52,31 @@ As mention previously the first pass involves counting the frequencies of a uniq
 
 \doublespacing
 \singlespacing
-To build a Huffman tree a min heap is required, a  data structure which always has the smallest (in this case the least occurring symbol) element at its root. All the symbols are inserted into the Min Heap. The project implementation uses it's own version of a Min Heap instead of the standard library for the purpose of gaining experience with data structure implementations.
+To build a Huffman tree a min heap is required, a min heap is a data structure that always has the smallest (in this case the least occurring symbol) element at its root. All the symbols are inserted into the Min-Heap. The project implementation uses its own version of a Min-Heap instead of the standard library for the purpose of gaining experience with data structure implementations.
 
 
 \doublespacing
 \singlespacing
-The next step in building a Huffman tree is actually building the tree. To build a Huffman tree we need to create new internal nodes that point to other nodes, either other symbols or other nodes. Upon completion of the Huffman tree there will be a single root internal node for a binary tree with all symbol nodes as leaves.
+The next step in building a Huffman tree is actually building the tree. To build a Huffman tree we need to create new internal nodes that point to other nodes, either other symbols or other nodes. Upon completion of the Huffman tree, there will be a single root internal node for a binary tree with all symbol nodes as leaves.
 
 
 \doublespacing
 \singlespacing
-To build the a new internal node the least occurring symbol is removed from the min heap (the root node) but pointed to as a left pointer by the new internal node. Then the next least occurring symbol is then also removed from the min heap (also now the root node) and pointed to by the right pointer of the new internal node. The count of occurrences of the two least occuring symbols are summed and become the count value for the new internal node. Finally, the new internal node is placed back in the min heap effectively replacing 2 nodes with one. This process is continued until there is the single root node for the Huffman tree.
+To build a new internal node the least occurring symbol is removed from the min heap (the root node) but pointed to as a left pointer by the new internal node. Then the next least occurring symbol is then also removed from the min heap (also now the root node) and pointed to by the right pointer of the new internal node. The count of occurrences of the two least occurring symbols are summed and become the count value for the new internal node. Finally, the new internal node is placed back in the min-heap effectively replacing 2 nodes with one. This process is continued until there is the single root node for the Huffman tree.
+
+
+\begin{figure}[H]
+\caption{Creating internal nodes}
+\includegraphics[scale=0.3]{slide2}
+\centering
+\end{figure}
+
+
+\begin{figure}[H]
+\caption{A completed Huffman tree with a single root node}
+\includegraphics[scale=0.3]{slide3}
+\centering
+\end{figure}
 
 
 \doublespacing
@@ -63,14 +84,28 @@ To build the a new internal node the least occurring symbol is removed from the 
 Once the Huffman tree is built we now have our Huffman codes, this is done by traversing the tree. Going left on the tree is represented as a 0 and going right on the tree is represented as a 1. The project implementation traverses the tree recursively to create a map of symbols to Huffman codes for the final step in the encoding process of actually encoding the file.
 
 
-\doublespacing
-\singlespacing
-There are some challenges in creating an encoded file. The most significant being representing the Huffman tree in the encoded file. For this implementation a system whereby an internal node is represented as a 0 and a leaf is represent by a 1 and followed immediately by its symbol representation was used. The implemtation can work out from this algorithm when there are no more internal nodes left to traverse.
+\begin{figure}[H]
+\caption{Huffman codes ready for encoding file}
+\includegraphics[scale=0.3]{slide4}
+\centering
+\end{figure}
 
 
 \doublespacing
 \singlespacing
-After the tree has been stored in the encoded file the next step is to make a final pass through the file and use the map of symbols and codes created earlier from the Huffman tree to append Huffman codes to the encoded file. A final challenge is presented as the proposition that an encoded file might not necessarily a multiple of 8 bits after the encoding process. To mitigate this a 3 bit header is attached to the front of the encoded file signifying how many bits to ingnore (0-7) in the decoding process.
+There are some challenges in creating an encoded file. The most significant being representing the Huffman tree in the encoded file. For this implementation a system whereby an internal node is represented as a 0 and a leaf is represented by a 1 and followed immediately by its symbol representation was used \cite{GeeksForGeeks}. The implementation can work out from this algorithm when there are no more internal nodes left to traverse.
+
+
+\doublespacing
+\singlespacing
+After the tree has been stored in the encoded file the next step is to make a final pass through the file and use the map of symbols and codes created earlier from the Huffman tree to append Huffman codes to the encoded file. A final challenge is presented in that an encoded file might not necessarily be a multiple of 8 bits after the encoding process. To mitigate this a 3-bit header is attached to the front of the encoded file signifying how many bits to ignore (0-7) in the decoding process.
+
+
+\begin{figure}[H]
+\caption{Ignoring extraneous bits}
+\includegraphics[scale=0.3]{slide5}
+\centering
+\end{figure}
 
 
 \doublespacing
@@ -78,4 +113,25 @@ After the tree has been stored in the encoded file the next step is to make a fi
 \section{Decoding}
 
 
-Decoding a file is relatively simple compared to the process of encoding a file as the most computational effort is performed by the encoded process. To decode an encoded file first the 3 bit header is read, then the Huffman tree representation is read in and built in memory. Finally every bit is read in one at a time, if a 0 is encountered we traverse down the left of the tree, if a 1 is encountered we traverse down the right of the tree. If we encounter a leaf node whilst traversing the tree the corresponding symbol is appended to a new decoded file and the traversing process starts from the root node again. This process is continued until the entire file is decoded and the original file is recovered bit for bit.
+Decoding a file is relatively simple compared to the process of encoding a file as the most computational effort is performed by the encoding process. To decode an encoded file first the 3-bit header is read, then the Huffman tree representation is read in and built-in memory. Finally, every bit is read in one at a time, if a 0 is encountered we traverse down the left of the tree, if a 1 is encountered we traverse down the right of the tree. If we encounter a leaf node whilst traversing the tree the corresponding symbol is appended to a new decoded file and the traversing process starts from the root node again. This process is continued until the entire file is decoded and the original file is recovered bit for bit.
+
+
+\begin{figure}[H]
+\caption{Begin decoding an encoded Huffman tree}
+\includegraphics[scale=0.3]{slide6}
+\centering
+\end{figure}
+
+
+\begin{figure}[H]
+\caption{Finish decoding an encoded Huffman tree}
+\includegraphics[scale=0.3]{slide8}
+\centering
+\end{figure}
+
+
+\begin{figure}[H]
+\caption{Decoded encoded file}
+\includegraphics[scale=0.3]{slide9}
+\centering
+\end{figure}

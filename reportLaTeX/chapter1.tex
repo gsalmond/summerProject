@@ -4,12 +4,12 @@
 
 
 \singlespacing
-In the context of data files, data compression is the process of encoding information using a smaller representation than the original file \cite{WikiDataCompression}. For data files the size of the representation can be defined in bits or other derived unit such as bytes.
+In the context of data files, data compression is the process of encoding information using a smaller representation than the original file \cite{WikiDataCompression}. For data files, the size of the representation can be defined in bits or other derived units such as bytes.
 
 
 \doublespacing
 \singlespacing
-Benifits of data compression occur from reducing the resources required to store and transmit data \cite{WikiDataCompression}. However, in the process of compressing and decompressing data computational resources which may impact benifits gained by compression.
+Benefits of data compression occur from reducing the resources required to store and transmit data \cite{WikiDataCompression}. However, in the process of compressing and decompressing data computational resources are consumed which may impact benefits gained by compression.
 
 
 \doublespacing
@@ -35,17 +35,17 @@ The compressed ratio (C$_{r}$) is equal to the compressed file size ($d_{1}$) ov
 \singlespacing
 
 
-Lossless compression is a method of encoding a file with the goal of representing the file using a smaller amount of bits but not losing any information from the decoding process. The opposite being lossly compression where this is not the case. Huffman coding, of which is the subject of this report is used to implement lossless compression \cite{WikiHuffman}.
+Lossless compression is a method of encoding a file with the goal of representing the file using a smaller amount of bits but not losing any information from the decoding process. The opposite of lossless compression is lossy compression where this is not the case. Huffman coding, the subject of this report, is used to implement lossless compression \cite{WikiHuffman}.
 
 
 \doublespacing
 \singlespacing
-Lossless compression works because most real world data contains stastical redundancy \cite{WikiDataCompression}. If a file contains symbols that occur more frequently than others we can use smaller representations to represent the frequent symbols and larger representations to represent the less frequent symbols. If a symbol doesn't occur at all in a file then no representation for that symbol is needed.
+Lossless compression works because most real-world data contains statistical redundancy \cite{WikiDataCompression}. If a file contains symbols that occur more frequently than others we can use smaller representations to represent the frequent symbols and larger representations to represent the less frequent symbols. If a symbol doesn't occur at all in a file then no representation for that symbol is needed.
 
 
 \doublespacing
 \singlespacing
-The two most common ways of constructing statistical models for the purposes of data compression are static and adaptive models . Static models build a model after reading all the data and store the model representation in the encoded file. Adapative models update a model as the file is compressed \cite{WikiLossless}. The implemtation of Huffman coding presented in this report is an example of a static model.
+The two most common ways of constructing statistical models for the purposes of data compression are static and adaptive models. Static models build a model after reading all the data and store the model representation in the encoded file. Adaptive models update a model as the file is compressed \cite{WikiLossless}. The implementation of Huffman coding presented in this report is an example of a static model.
 
 
 \doublespacing
@@ -56,7 +56,7 @@ The two most common ways of constructing statistical models for the purposes of 
 \singlespacing
 
 
-Lossy compression works by removing less important information from a data file. Audio and Image data are examples of where lossy compression is applied. Human eyes are more sensitive to varitions in luminance than the are to variations in colour \cite{WikiDataCompression}. Because of this fact image compression can remove information from files that humans can not percieve therby improving compression ration for a file by reducing the number of bits needed to represent said file. Similiarly human limitations for hearing various audio signals present opportunties to decrease the need representation of audio files.
+Lossy compression works by removing less important information from a data file. Audio and Image data are examples of where lossy compression is applied. Human eyes are more sensitive to variations in luminance than they are to variations in color \cite{WikiDataCompression}. Because of this fact image compression can remove information from files that humans can not perceive thereby improving compression ratio for a file by reducing the number of bits needed to represent the said file. Similarly human limitations for hearing various audio signals present opportunities to decrease the required bit representation of audio files.
 
 
 \doublespacing
@@ -67,7 +67,7 @@ Lossy compression works by removing less important information from a data file.
 \singlespacing
 
 
-Various uses for data compression can be defined. General purpose data compression algorithms generally refer to compression algorithms that apply to standard text or binary files. Of these algorithms some may be optimised for a particular type of input file such as text compression . As mentiioned in previous sections specialized audio and image compression algorithms exist. Indeed for any particular domain there may be a case for developing a special purpose compression algorithm, such is the case of HAPZIPPER a compression application for the purpose of compressing genetic data \cite{WikiLossless}.
+Various uses for data compression can be defined. General purpose data compression algorithms generally refer to compression algorithms that apply to standard text or binary files. Of these algorithms, some may be optimized for a particular type of input file such as text compression. As mentioned in previous sections specialized audio and image compression algorithms exist. Indeed for any particular domain, there may be a case for developing a special purpose compression algorithm, such is the case of HAPZIPPER a compression application for the purpose of compressing genetic data \cite{WikiLossless}.
 
 
 \doublespacing
@@ -84,7 +84,7 @@ Many of the lossless compression algorithms in use today combine Huffman Coding 
 \singlespacing
 
 
-Information theory underpins the theoritical background of data compression. Claude Shannon published pioneering  papers on the topic in the 1940s and 1950s \cite{WikiDataCompression}. Shannon came up with the idea information entropy which can be defined by the following equation in regards to binary data \cite{MasseyStudyGuide}:
+Information theory underpins the theoretical background of data compression. Claude Shannon published pioneering papers on the topic in the 1940s and 1950s \cite{WikiDataCompression}. Shannon came up with the idea of information entropy which can be defined by the following equation in regards to binary data \cite{MasseyStudyGuide}:
 
 
 \begin{equation*}
@@ -94,7 +94,7 @@ Information theory underpins the theoritical background of data compression. Cla
 
 \doublespacing
 \singlespacing
-The negative of the sum of: The probability of the symbol ($p_{i}$) occuring in a file times log base 2 of the probability of the symbol occuring in a file.
+The negative of the sum of the probability of the symbol ($p_{i}$) occurring in a file times log base 2 of the probability of the symbol occurring in a file.
 
 
 \doublespacing
@@ -104,7 +104,7 @@ The implications of information entropy impose a limit on the potential compress
 
 \doublespacing
 \singlespacing
-There is no single lossless data compression algorithm that can compress any and all data. In fact it is provably impossible to create such an algorithm \cite{WikiLossless}.
+There is no single lossless data compression algorithm that can compress any and all data. In fact, it is provably impossible to create such an algorithm \cite{WikiLossless}.
 
 
 \section{Huffman Coding}
@@ -122,7 +122,7 @@ A Huffman code refers to a prefix code, an encoded representation of a symbol wh
 
 \doublespacing
 \singlespacing
-Encoding a file involves building a Huffman tree, a type top down binary tree used to create prefix codes for symbols. Symbols that occur more frequently are closer to the root of the tree and ones that occur less frequently are found at lower levels of the tree.
+Encoding a file involves building a Huffman tree, a type of top-down binary tree used to create prefix codes for symbols. Symbols that occur more frequently are closer to the root of the tree and ones that occur less frequently are found at lower levels of the tree.
 
 
 \doublespacing

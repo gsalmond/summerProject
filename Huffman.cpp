@@ -45,31 +45,15 @@ void Huffman<T>::encode(const std::string &inStr) {
     inFile.seekg(0, ios::beg);
     inFile.read(fileContents, fileSize);
     inFile.close();
-//    cout << "Debug1" << endl;
-//    cout << "Filesize: " << fileSize << endl;
-//    cout << "Extra size: " << extraSize << endl;
-//    cout << "SizeofT: " << sizeOfT << endl;
-//    cout << "Extra bytes: " << extraBytes << endl;
+
     //go through file and count occurrence of each symbol
     for(int i = 0; i < fileSize; i+=sizeOfT) {
-        //cout << "hello" << (int)fileContents[i] << endl;
-//        cout << "here" << endl;
         //treating each symbol as a number for indexing vector
         T temp = fileContents[i];
         unsigned long indx = 0;
         indx = indx | temp;
-//        cout << i << " " << indx << " ";
-//        cout << initialNodes[indx]->count << endl;
         initialNodes[indx]->count++;
     }
-//    cout << "Debug2" << endl;
-    //go through file and count occurrence of each symbol
-    //copying file into output file
-//    char c;
-//    while(inFile.get(c)) {
-//        //treating each symbol as a number for indexing vector
-//        initialNodes[c]->count++;
-//    }
 
     inFile.close();
 
@@ -84,28 +68,6 @@ void Huffman<T>::encode(const std::string &inStr) {
     //traverse tree, print out
     outputTree(huffmanTree[0], vector<bool>());
 
-//    for(auto element : compressed) {
-//        cout << element;
-//    }
-
-//    cout << setw(6);
-//    //display tallies
-//    for (int i = 0; i < initialNodes.size(); i++) {
-//        if(i % 10 == 0 && i != 0) { cout << endl; }
-//        cout << setw(4) << i << ": " << setw(6) << initialNodes[i]->count << ", ";
-//    }
-//    cout << endl;
-//    for (int i = 0; i < huffmanTree.size(); i++) {
-//        if(i % 10 == 0 && i != 0) { cout << endl; }
-//        cout << setw(4) << i << ": " << setw(6) << huffmanTree[i]->count << ", ";
-//    }
-//    cout << endl;
-//
-//    cout << "Printing tree in compressed form: " << endl;
-//    for(auto element : compressed) {
-//        cout << element;
-//    }
-//
     cout << endl << "Printing map of codes" << endl;
     for(auto elem : codeMap) {
         cout << elem.first << " ";
@@ -117,42 +79,14 @@ void Huffman<T>::encode(const std::string &inStr) {
 
     //build up vector<bool> compressed
     //... using codeMap<T, vector<bool>> and file symbols
-//    inFile.close();
-//    inFile.open(inStr);
-//    while(inFile.get(c)) {
-//        for(auto elem : codeMap[c]) {
-//            compressed.push_back(elem);
-//        }
-//    }
-
-    //build up vector<bool> compressed
-    //... using codeMap<T, vector<bool>> and file symbols
     for(int i = 0; i < fileSize; i+=sizeOfT) {
         for(auto elem : codeMap[fileContents[i]]) {
             compressed.push_back(elem);
         }
     }
 
-//    cout << "Printing tree file in bits: " << endl;
-//    for(auto element : compressed) {
-//        cout << element;
-//    }
-
-//    inFile.close();
-
-//    cout << "\nPrinting";
-//    for(auto x : compressed) {
-//        cout << x;
-//    }
-
     //create compressed file
     createCompressed(inStr);
-
-//    cout << "\nPrinting";
-//    for(auto x : compressed) {
-//        cout << x;
-//    }
-//    cout << endl;
 }
 
 // creates compressed file using vector<bool> compressed
@@ -163,22 +97,13 @@ void Huffman<T>::createCompressed(const string& inStr) const {
     ofstream compressedFile(compressedStr, ios::binary);
 
     const unsigned char HEADER_BITS = 6;
-    //const unsigned char HEADER_AND = 63;
     const unsigned char BYTE_BITS = 8;
-//    const int HEADER_BITS = 3; // number of bits used in compressed file to represent extra bits
-//    const int HEADER_AND = 7; // used with bitwise & to get header bits from compressed file
-//    const int BYTE_BITS = 8; // number of bits in a byte
 
     auto extraBits = (unsigned char)((compressed.size() + HEADER_BITS) % BYTE_BITS);
     auto extraBytes = (unsigned char)((compressed.size() + HEADER_BITS) % sizeof(T));
-//    cout << "CREATECOMPRESSED" << endl;
-//    cout << "Comp.size() + HEADER_BITS" << compressed.size()+HEADER_BITS << " " << endl;
-//    cout << "Extra bits " << (int)extraBits;
-//    cout << " Extra bytes " << (int)extraBytes;
+
     unsigned char builtChar = (extraBits << 3) + extraBytes; // adding header bits to front of compressed file
-//    cout << " Built char: " << (int)builtChar << endl;
     builtChar = builtChar << (BYTE_BITS-HEADER_BITS); // shift header bits to correct position
-//    cout << " Built char: " << (int)builtChar << endl;
     int shift = BYTE_BITS-HEADER_BITS-1; // where to place the first bit for the compressed file after header bits
     if(shift < 0) { cout << "Error with shift in createCompressed"; exit(EXIT_FAILURE); }
     const unsigned char one = 1;
@@ -188,21 +113,12 @@ void Huffman<T>::createCompressed(const string& inStr) const {
             char temp = 0;
             temp = builtChar | temp;
             compressedFile.write(&temp, 1);
-            //compressedFile << builtChar;
-//            for(int i = 7; i >=0; i--) {
-//                if(temp & (1 << i)) { cout << "1"; }
-//                else { cout << "0"; }
-//            }
             shift = 7;
             builtChar = 0;
         } else { shift--; }
     }
     // deal with extra bits
     if(extraBits) {
-//        for(int i = 7; i >=0; i--) {
-//            if(builtChar & (1 << i)) { cout << "1"; }
-//            else { cout << "0"; }
-//        }
         compressedFile << builtChar;
     }
 
@@ -359,21 +275,8 @@ void Huffman<T>::decode(const string& fileStr) {
     }
     encoded.close();
 
-//    cout << "Printing";
-//    for(auto elem : compressed) { cout << elem; }
-//    cout << endl;
-
     const int extraBits = ((compressed[0] & 1) << 2) + ((compressed[1] & 1) << 1) + (compressed[2] & 1);
-//    cout << "First three bits encoded " << compressed[0] << compressed[1] << compressed[2] << endl;
-//    cout << "Extra bits: " << extraBits << endl;
-    const int extraBytes = ((compressed[3] & 1) << 2) + ((compressed[4] & 1) << 1) + (compressed[5] & 1);
-//    cout << "Extra bytes: " << extraBytes << endl;
-
-//    //calculate extra bits from first 3 bits
-//    int extraBits = 0;
-//    if(compressed[0]) { extraBits += 4; }
-//    if(compressed[1]) { extraBits += 2; }
-//    if(compressed[2]) { extraBits += 1; }
+    //const int extraBytes = ((compressed[3] & 1) << 2) + ((compressed[4] & 1) << 1) + (compressed[5] & 1);
 
     long double ratioCompressed = compressed.size() / 8.0;
 
@@ -382,7 +285,6 @@ void Huffman<T>::decode(const string& fileStr) {
 
     int encodingStarts = 6; //starting at index 6 after the initial header bits find where tree ends and encoding begins
     symbolNode<T>* root = decodeTree(encodingStarts);
-//    cout << endl << "Encoding starts at: " << encodingStarts << endl;
 
     //start building decoded file
     string decodedStr = fileStr;
@@ -404,18 +306,12 @@ void Huffman<T>::decode(const string& fileStr) {
         if(!current->isInternalNode) {
             decoded << current->symbol;
             ratioDecompressed += sizeof(T);
-//            cout << current->symbol;
             current = root;
         }
     }
     decoded.close();
 
     cout << "Compression ratio ~" << ratioDecompressed/ratioCompressed << ":1" << endl;
-//    cout << "Extra bytes: " << extraBytes << endl;
-//    decoded.open(decodedStr, ios::binary);
-//    decoded.seekp(ios::end - extraBytes);
-//    decoded.write("", 0);
-//    decoded.close();
 }
 
 // builds prebuilt tree from encoded file

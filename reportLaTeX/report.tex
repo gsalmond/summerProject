@@ -15,8 +15,13 @@ Supervisor: Dr. Andre Barczack}
 
 
 \begin{document}
-\maketitle	
-\pagenumbering{gobble}	
+\maketitle    
+\pagenumbering{gobble}    
+\newpage
+
+\abstract
+\singlespacing
+The report details implementation of Huffman coding as part of an academic computer science project at Massey University. Huffman coding is a method for lossless data compression, the report reviews the literature on the subject to give the reader some background into data compression and Huffman coding in the first chapter of the report. The next chapter explains how the project was implemented and the choices made to create the implementation. In the final chapter results of the implementation are examined and compared to other compression software.
 \newpage
 
 \pagenumbering{arabic}
@@ -26,8 +31,24 @@ Supervisor: Dr. Andre Barczack}
 \newpage
 
 
-\chapter{Literature Review}
+\listoffigures
 
+\listoftables
+
+\newpage
+\doublespacing
+\section*{Introduction}
+
+
+\singlespacing
+This report documents an implementation of Huffman coding for a Massey University computer science project. Huffman coding is an example of lossless data compression. Huffman coding makes use of various data structures and information theory to create prefix codes to encode a file. This report reviews relevant literature explains the process application performs to create an encoded file and examines the performance of the implementation.
+
+
+\doublespacing
+\singlespacing
+Functional data compression requires an application to be able to encode and decode a data file. Perhaps the most widely known compression format ".zip" files also perform the function on merging multiple files into a single file whilst separating them again upon decoding the file. This report focuses on data compression of a single file.
+
+\chapter{Literature Review}
 
 \include{chapter1}
 
@@ -36,6 +57,8 @@ Supervisor: Dr. Andre Barczack}
 \include{chapter2}
 
 \chapter{Results}
+
+\include{chapter3}
 
 
 
